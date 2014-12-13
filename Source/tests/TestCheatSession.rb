@@ -30,6 +30,23 @@ Capybara.register_driver :my_poltergeist do |app|
 end
 #for initializing
 
+def restartServer
+  restarted = false
+  socket = SocketIO::Client::Simple.connect 'http://localhost:25002'
+  socket.on :connect do
+      socket.emit :restart
+  end
+
+  socket.on :restarted do
+    puts "\nserver was restarted"
+    yield#your code on restart is here
+    restarted = true
+  end
+
+  until restarted do
+    #wait utill server restart
+  end  
+end
 
 def getNewPlayers
 	def initPlayer
@@ -43,22 +60,9 @@ def getNewPlayers
 
 	restarted = false
 	threads = []
-	socket = SocketIO::Client::Simple.connect 'http://localhost:25002'
-	socket.on :connect do
-	  	socket.emit :restart
-	end
-
-	socket.on :restarted do
-		p "server was restarted"
-		4.times do
-			threads << Thread.new { initPlayer } 
-		end
-		restarted = true
-	end
-
-	until restarted do
-		#wait utill server restart
-	end
+  restartServer do
+    4.times { threads << Thread.new { initPlayer } }	
+  end
 
 	threads.each {|thr| thr.join }
 	return Hash[ threads.map {|thr| thr["pair"]} ]
@@ -184,20 +188,7 @@ describe "Cheat card game." do
   end
 
   after(:all) do
-    restarted = false
-    socket = SocketIO::Client::Simple.connect 'http://localhost:25002'
-    socket.on :connect do
-        socket.emit :restart
-    end
-
-    socket.on :restarted do
-      p "server was restarted"
-      restarted = true
-    end
-
-    until restarted do
-      #wait utill server restart
-    end
+    restartServer { }
   end
 
   	describe "Session for 4 players." do
