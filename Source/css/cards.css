@@ -1,0 +1,267 @@
+
+body {
+  background: url("../images/table.jpg");
+  background-size: 100%;
+  width: 98%;
+  height: 98vh;
+  margin: 0px;
+} 
+
+.game-container{
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.layer-top {
+  display: flex;
+  flex: 4 250px;
+  justify-content: center;
+}
+
+.layer-middle {
+  display: flex;
+  flex: 5 250px;
+  justify-content: space-between;;
+}
+
+.layer-bottom {
+  display: flex;
+  flex: 2 250px;
+  justify-content: center;
+}
+
+.player-top {
+  flex: 1 250px;
+  /*align-self: flex-end;*/
+  min-width: 300px;
+  max-width: 600px;
+  position: relative;
+  -webkit-transform: rotate(180deg);
+  -moz-transform   : rotate(180deg);
+  -ms-transform    : rotate(180deg);
+  -o-transform     : rotate(180deg);
+  transform        : rotate(180deg);
+}
+
+.pile {
+  flex: 1 250px;
+  position: relative;
+  min-width: 160px;
+  max-width: 400px;
+}
+
+.player-left {
+  flex: 2 20px;
+  min-width: 200px;
+  max-width: 220px;
+  position: relative;
+  -webkit-transform: rotate(90deg);
+  -moz-transform   : rotate(90deg);
+  -ms-transform    : rotate(90deg);
+  -o-transform     : rotate(90deg);
+  transform        : rotate(90deg);
+}
+
+.player-right {
+  flex: 2 20px;
+  min-width: 200px;
+  max-width: 220px;
+  position: relative;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform   : rotate(-90deg);
+  -ms-transform    : rotate(-90deg);
+  -o-transform     : rotate(-90deg);
+  transform        : rotate(-90deg);
+}
+
+.main-field {
+  flex: 5 250px;
+  align-self: center;
+  min-width: 300px;
+  max-width: 600px;
+  height: 250px;
+  position: relative;
+}
+
+.player-bottom {
+  /*width: 600px;*/
+  /*height:220px;*/
+  flex: 5 250px;
+  align-self: center;
+  min-width: 200px;
+  max-width: 800px;
+  height: 250px;
+  position: relative;
+}
+
+/*CARDS*/
+.card {
+  position: absolute;
+  float: left;
+  margin-right: 10px;
+  width: 135px;
+  height: 200px;
+  border-radius: 10px;
+  -webkit-box-shadow: 1px 1px 15px rgba(0,0,0,1);
+  box-shadow: 1px 1px 15px rgba(0 ,0,0,1);
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.main-field .card {
+  left: 0;
+  bottom: 0;
+}
+
+.player-bottom .card {
+  left: 0;
+  bottom: 0;
+}
+
+.player-top .card {
+  left: 25%;
+  bottom: 0px;
+}
+
+.player-left .card {
+  left: 25%;
+  bottom: 20%;
+}
+
+.player-right .card {
+  right: 25%;
+  bottom: 20%;
+}
+
+.pile .card {
+  left: auto;
+  right: 80px;
+}
+
+.highlight .card {
+  -webkit-box-shadow: 1px 1px 15px rgba(0, 255, 165, 0.51);
+  box-shadow: 1px 1px 15px rgba(0, 255, 165, 0.51);
+}
+
+/*big suit icon in the middle of card*/
+.card > p {
+  margin: 0px;
+  top: 0px;
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.4)), to(rgba(0,0,0,1)));
+  text-align: center;
+  font: 135px/200px Georgia, serif;
+}
+
+.red { color: #ff0000; }
+
+.black{ color: #000;}
+/*small suits*/
+.card:before, .card:after {
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.7)), to(rgba(0,0,0,1)));
+  content: attr(value)"\A"attr(suit);
+  white-space: pre;
+}
+/*small suits icons above*/
+.card:before {
+  padding: 5px;
+  line-height: 80%;
+  position: absolute;
+  font-size: 30px;
+  left: 5px;
+  top: 5px;
+}
+/*small suits icons down*/
+.card:after {
+  padding: 5px;
+  line-height: 80%;
+  position: absolute;
+  font-size: 30px;
+  right: 5px;
+  bottom: 5px;
+  /*mirrored copy*/
+  -webkit-transform: rotate(-180deg); 
+  -moz-transform   : rotate(-180deg);
+  -ms-transform    : rotate(-180deg); 
+  -o-transform     : rotate(-180deg);
+  transform        : rotate(-180deg);
+}
+
+.highlight .card.open {
+  background: -webkit-linear-gradient(90deg, #ECE9E6 10%, #818181 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #ECE9E6 10%, #818181 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #ECE9E6 10%, #818181 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #ECE9E6 10%, #818181 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #ECE9E6 10%, #818181 90%); /* W3C */
+  -webkit-box-shadow: 8px 1px 20px rgba(0, 255, 165, 0.76);
+  box-shadow: 8px 1px 20px rgba(0, 255, 165, 0.76);
+}
+
+
+.open {
+  background: -webkit-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* W3C */
+}
+/*http://uigradients.com/#*/
+/*Cherry*/
+.shirt1 {
+  background: -webkit-linear-gradient(110deg, #EB3349 10%, #F45C43 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(110deg, #EB3349 10%, #F45C43 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(110deg, #EB3349 10%, #F45C43 90%); /* IE10 */
+  background:      -o-linear-gradient(110deg, #EB3349 10%, #F45C43 90%); /* Opera 11.10+ */
+  background:         linear-gradient(110deg, #EB3349 10%, #F45C43 90%); /* W3C */
+}
+/*Titanium*/
+.shirt2 {
+  background: -webkit-linear-gradient(110deg, #283048 10%, #859398 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(110deg, #283048 10%, #859398 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(110deg, #283048 10%, #859398 90%); /* IE10 */
+  background:      -o-linear-gradient(110deg, #283048 10%, #859398 90%); /* Opera 11.10+ */
+  background:         linear-gradient(110deg, #283048 10%, #859398 90%); /* W3C */                        
+}
+/*Koko Caramel*/
+.shirt3 {
+
+
+  background: -webkit-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* W3C */
+
+}
+/*Sea Weed*/
+.shirt4 {
+  background: -webkit-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #4CB8C4 10%, #3CD3AD 90%); /* W3C */                 
+}
+
+.shirt5 {
+  background: -webkit-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #abbaab 10%, #ffffff 90%); /* W3C */
+}
+
+/*
+.group {
+  position: absolute;
+  top: 0;
+  left: 0;
+}*/
+
+
+

@@ -1,0 +1,27 @@
+{
+  "name": "CheatTheGame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "socket.io": "^1.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toshiro777/Cheat.git"
+  },
+  "keywords": [
+    "Cheat"
+  ],
+  "author": "Toshiro M",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toshiro777/Cheat/issues"
+  },
+  "homepage": "https://github.com/toshiro777/Cheat"
+}
