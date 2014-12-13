@@ -29,6 +29,8 @@ Capybara.register_driver :my_poltergeist do |app|
   	Capybara::Poltergeist::Driver.new(app, options)
 end
 #for initializing
+
+
 def getNewPlayers
 	def initPlayer
 		session = Capybara::Session.new(:my_poltergeist)
@@ -179,6 +181,23 @@ describe "Cheat card game." do
     	@player4 = players["♣"]
 
       @players = [@player1, @player2, @player3, @player4]
+  end
+
+  after(:all) do
+    restarted = false
+    socket = SocketIO::Client::Simple.connect 'http://localhost:25002'
+    socket.on :connect do
+        socket.emit :restart
+    end
+
+    socket.on :restarted do
+      p "server was restarted"
+      restarted = true
+    end
+
+    until restarted do
+      #wait utill server restart
+    end
   end
 
   	describe "Session for 4 players." do

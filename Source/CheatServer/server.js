@@ -3,7 +3,7 @@
 var MAX_ROOMS = 1;
 var MAX_PLAYERS = 4;
 //var MAX_TURN_TIME = 120;
-
+console.log("HI am server!");
 //var io = require('socket.io').listen(process.env.PORT);
 var io = require('socket.io').listen(25002);
 var gcClass = require("./gameController.js").gc;

@@ -1,4 +1,4 @@
-/*
+/**
  * Created by Layton on 30.11.2014.
  */
 /*
@@ -36,44 +36,34 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         console.log("ERROR! Invalid update type: " + updateType + ". Please use horizontal, vertical or radial instead.");
     }
 
-    function getTransformCSS($card) {
-        if (!$card) { return {}; }
-        return {
-            x: $card.attr('fx') || "0px",
-            y: $card.attr('fy') || "0px",
-            rotate: $card.attr('frotate') || "0deg"
-        };
-    }
-
     function animateCard($card, time) {
-        function getAnimParam(opacity, time) {
-            var param = getTransformCSS($card);
-            var param.opacity = opacity;
-            var param.duration = time || updateTime;
-            var param.easing = "snap";
-            return param;
-        }
-        function animAlive() {
-            var param = getAnimParam(1.0, time);
-            $card.transition(param);
-        }
-        function animDead() {
-            var param = getAnimParam(0.0, deadTime);
-            $card.attr("status", "removing");
-            $card.transition(param, function() {
-                $card.remove();
-            });
-        }
-
         if ($card.attr("status") === "removing") { return; }
+        //move cards to the new default state
+        //status={dead] fx="#{final X coordinate} fy="#{final Y coordinate}"
+        //frotate="#{final angle}" fo="#{final opacity}"
 
         $card.stop(true);
+        var param = {
+            x: $card.attr('fx') || "0px",
+            y: $card.attr('fy') || "0px",
+            rotate: $card.attr('frotate') || "0deg",
+            opacity: 1.0,
+            duration: time || updateTime,
+            easing: "snap"
+        };
 
         if ($card.attr("status") === "alive") {
-            animAlive();
-        } else {
-            animDead();
+            $card.transition(param);
+            return;
         }
+
+        //dead
+        param.opacity = 0.0;
+        param.duration = deadTime;
+        $card.attr("status", "removing");
+        $card.transition(param, function() {
+            $card.remove();
+        });
     }
 
     function animateField(time) {
@@ -87,7 +77,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
 
     function animateAllCards(time) {
         var $allCards = $field.find('.card');
-        $allCards.each(function(index) {
+        $allCards.each(function (index) {
             animateCard($(this), time);
         });
     }
@@ -110,24 +100,17 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
                 //padding from both side + card with N times
                 return (2 * maxPadding + cardWidth) * N;
             }
-            function calcMaxWidth() {
-                //we want to get only visible space without scrollbars
-                var screenWidth = $(window).width();//take it for resizing purposes
-                var fieldWidth = $field.width();//should be in px
-                return (screenWidth > fieldWidth) ? fieldWidth : screenWidth;
-            }
-            function calcMinWidth() {
-                //should be in px, for now take value from css
-                //it may be different for different screen due to media queries
-                return parseInt($field.css('min-width'), 10);
-            }
 
-            var idealWidth = calcIdealWidth();
-            var maxWidth = calcMaxWidth();
-            var minWidth = calcMinWidth();
-            
+            var gameWidth = $(window).width();//take it for resizing purposes
+            var maxWidth = $field.width();//should be in px
+            var minWidth = parseInt($field.css('min-width'), 10);//should be in px
+            maxWidth = (gameWidth > maxWidth) ? maxWidth : gameWidth;
+
             //guarantee that result is not less than minWidth
             if (maxWidth < minWidth) { return minWidth; }
+
+            var idealWidth = calcIdealWidth();
+            //console.log(fieldSelector + ": ideal width " + idealWidth);
             if (idealWidth > maxWidth) { return maxWidth; }//not enough space
             if (idealWidth < minWidth) { return minWidth; }
             return idealWidth;
@@ -139,7 +122,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         var step = calcStep(fieldWidth - cardWidth, N);
         //change width of the entire field to fit its content
         $field.attr('fw', fieldWidth + "px");
-        self.$cards.each(function(index) {
+        self.$cards.each(function (index) {
             $(this).attr("fx", step * index + "px");
         });
     }
@@ -150,7 +133,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         //to make fan symmetric
         var defaultAngle = -fullSector / 2;
         var step = calcStep(fullSector, self.$cards.length);
-        self.$cards.each(function(index) {
+        self.$cards.each(function (index) {
             $(this).attr('frotate', step * index + defaultAngle);
         });
     }
@@ -159,7 +142,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         var cardHeight = self.$cards.first().height();
         //subtract field height to stay within it
         var step = calcStep($field.height() - cardHeight, self.$cards.length);
-        self.$cards.each(function(index) {
+        self.$cards.each(function (index) {
             $(this).attr('fy', step * index);
         });
     }
@@ -170,7 +153,14 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         animateCard($card, popTime);
     }
 
-
+    function getTransformCSS($card) {
+        if (!$card) { return {}; }
+        return {
+            x: $card.attr('fx') || "0px",
+            y: $card.attr('fy') || "0px",
+            rotate: $card.attr('frotate') || "0deg"
+        };
+    }
     /*
      Adds $card (with its shirt, suit and value) to the $field and
      update $cards list. You need to call update to display this changes.
@@ -354,7 +344,7 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
     firstCard - JSON data object {owner, suit, value}
     secondCard - JSON data object {owner, suit, value}
  */
-DeckDW.compare =  function(firstCard, secondCard) {
+DeckDW.compare =  function (firstCard, secondCard) {
     var firstValue = firstCard.value || "", secondValue = secondCard.value || "";
     var firstSuit = firstCard.suit || "", secondSuit = secondCard.suit || "";
     return firstCard.value === secondCard.value && firstCard.suit === secondCard.suit;
@@ -367,8 +357,8 @@ DeckDW.compare =  function(firstCard, secondCard) {
  Return:
     JSON data object {owner, suit, value} without owner
  */
-DeckDW.extractData = function($card) {
-    return { value: $card.attr('value'), suit: $card.attr('suit') };
+DeckDW.extractData = function ($card) {
+    return {value: $card.attr('value'), suit: $card.attr('suit')};
 };
 /*
   Creates jQuery Object for the given card data
@@ -379,7 +369,7 @@ DeckDW.extractData = function($card) {
   Return:
     jQuery object which represents a new card
  */
-DeckDW.create$Card = function(card, shirt) {
+DeckDW.create$Card = function (card, shirt) {
     var color = (card.suit === "♦" || card.suit === "♥") ? "red" : "";
     var value = card.value || "";
     var suit = card.suit || "";
