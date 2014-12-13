@@ -1,7 +1,7 @@
 #!/bin/env ruby
 # encoding: utf-8
 require 'capybara'
-#require 'capybara-webkit' sdfasdf
+#require 'capybara-webkit' sdfasdffasdfasd
 require 'capybara/poltergeist'
 require 'rubygems'
 require 'socket.io-client-simple'
