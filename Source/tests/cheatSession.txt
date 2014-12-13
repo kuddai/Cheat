@@ -1,47 +1,74 @@
-Time  2014-12-13 19:16:26 +0400
-Hello dino!
-Hello dino!
--1: i am inside socket once!
--1: emiting {"name":"defaultName","id":null}
--1: i am inside socket once!
--1: emiting {"name":"defaultName","id":null}
+Time  2014-12-13 19:29:17 +0400
 Hello dino!
 -1: i am inside socket once!
 -1: emiting {"name":"defaultName","id":null}
 Hello dino!
+Hello dino!
 -1: i am inside socket once!
 -1: emiting {"name":"defaultName","id":null}
-My id: LYY-60bQ22iaJqLhAAAo
+-1: i am inside socket once!
+-1: emiting {"name":"defaultName","id":null}
+Hello dino!
+-1: i am inside socket once!
+-1: emiting {"name":"defaultName","id":null}
+My id: AId5A5Z7wph9BnWNAAA1
 -1: message: Need 3 players to start
-My id: zlq1J3ht0Dx6BNQtAAAp
+My id: uOTSP5IzSIf_ND7cAAA2
 -1: message: Need 2 players to start
-My id: AV-ntQiYYSQ2CQbCAAAq
+My id: 90W5qn4Xv0DOjxupAAA3
 -1: message: Need 1 player to start
-0: Our client id: 0
-2: Our client id: 2
-3: Our client id: 3
 1: Our client id: 1
-3: Hover on bottom desk is enabled
-3: Clear all input handlers except hover handler for bottom deck.
-3: Clear all cards from main deck
-3: Removed all handlers from main deck, and click handler from bottomDeck
-1: Hover on bottom desk is enabled
-1: Clear all input handlers except hover handler for bottom deck.
-1: Clear all cards from main deck
-1: Removed all handlers from main deck, and click handler from bottomDeck
-3: Renew decks of other players
-1: Renew decks of other players
-2: Hover on bottom desk is enabled
-2: Clear all input handlers except hover handler for bottom deck.
-2: Clear all cards from main deck
-2: Removed all handlers from main deck, and click handler from bottomDeck
+0: Our client id: 0
+3: Our client id: 3
+2: Our client id: 2
 0: Hover on bottom desk is enabled
 0: Clear all input handlers except hover handler for bottom deck.
 0: Clear all cards from main deck
 0: Removed all handlers from main deck, and click handler from bottomDeck
+1: Hover on bottom desk is enabled
 0: Renew decks of other players
+1: Clear all input handlers except hover handler for bottom deck.
+1: Clear all cards from main deck
+1: Removed all handlers from main deck, and click handler from bottomDeck
+1: Renew decks of other players
+2: Hover on bottom desk is enabled
+3: Hover on bottom desk is enabled
+3: Clear all input handlers except hover handler for bottom deck.
+3: Clear all cards from main deck
+3: Removed all handlers from main deck, and click handler from bottomDeck
+3: Renew decks of other players
+2: Clear all input handlers except hover handler for bottom deck.
+2: Clear all cards from main deck
+0: Previous player: -1. Current Player: 0
+2: Removed all handlers from main deck, and click handler from bottomDeck
+0: Renew pile deck.
+0: Number of cards in pile deck: 0
+0: Our turn!
+0: Starting: first turn state
+0: Clear all input handlers except hover handler for bottom deck.
 2: Renew decks of other players
+0: Clear all cards from main deck
+0: Removed all handlers from main deck, and click handler from bottomDeck
 1: Previous player: -1. Current Player: 0
+1: Renew pile deck.
+1: Number of cards in pile deck: 0
+1: Starting watching state. Not our turn.
+0: Hover on main desk is enabled
+1: Clear all input handlers except hover handler for bottom deck.
+0: Enable click on bottom deck
+1: Clear all cards from main deck
+0: Enable click on main deck
+1: Removed all handlers from main deck, and click handler from bottomDeck
+0: Enable swipeup on main deck
+1: Watching state. Nothing to display on main deck
+2: Previous player: -1. Current Player: 0
+2: Renew pile deck.
+2: Number of cards in pile deck: 0
+2: Starting watching state. Not our turn.
+2: Clear all input handlers except hover handler for bottom deck.
+2: Clear all cards from main deck
+2: Removed all handlers from main deck, and click handler from bottomDeck
+2: Watching state. Nothing to display on main deck
 3: Previous player: -1. Current Player: 0
 3: Renew pile deck.
 3: Number of cards in pile deck: 0
@@ -49,49 +76,22 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 3: Clear all input handlers except hover handler for bottom deck.
 3: Clear all cards from main deck
 3: Removed all handlers from main deck, and click handler from bottomDeck
-1: Renew pile deck.
-1: Number of cards in pile deck: 0
-1: Starting watching state. Not our turn.
-1: Clear all input handlers except hover handler for bottom deck.
-1: Clear all cards from main deck
-1: Removed all handlers from main deck, and click handler from bottomDeck
 3: Watching state. Nothing to display on main deck
-1: Watching state. Nothing to display on main deck
-2: Previous player: -1. Current Player: 0
-0: Previous player: -1. Current Player: 0
-2: Renew pile deck.
-2: Number of cards in pile deck: 0
-2: Starting watching state. Not our turn.
-2: Clear all input handlers except hover handler for bottom deck.
-2: Clear all cards from main deck
-2: Removed all handlers from main deck, and click handler from bottomDeck
-0: Renew pile deck.
-0: Number of cards in pile deck: 0
-0: Our turn!
-0: Starting: first turn state
-0: Clear all input handlers except hover handler for bottom deck.
-0: Clear all cards from main deck
-0: Removed all handlers from main deck, and click handler from bottomDeck
-2: Watching state. Nothing to display on main deck
-0: Hover on main desk is enabled
-0: Enable click on bottom deck
-0: Enable click on main deck
-0: Enable swipeup on main deck
 0: clicked on card {"card":{"value":"6","suit":"♠","owner":0},"index":0}
 3: Player0 put card on the main field
 2: Player0 put card on the main field
 1: Player0 put card on the main field
-1: Player0 put card to his deck
 2: Player0 put card to his deck
 3: Player0 put card to his deck
+1: Player0 put card to his deck
 0: clicked on card {"card":{"value":"6","suit":"♠","owner":0},"index":8}
 2: Player0 put card on the main field
-1: Player0 put card on the main field
 3: Player0 put card on the main field
+1: Player0 put card on the main field
 0: clicked on card {"card":{"value":"7","suit":"♠","owner":0},"index":0}
 1: Player0 put card on the main field
-3: Player0 put card on the main field
 2: Player0 put card on the main field
+3: Player0 put card on the main field
 0: Ending: addingState. Chosen cards: [{"value":"6","suit":"♠","owner":0},{"value":"7","suit":"♠","owner":0}]
 0: Clear all input handlers except hover handler for bottom deck.
 0: Clear all cards from main deck
@@ -106,57 +106,57 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 0: Clear all input handlers except hover handler for bottom deck.
 0: Clear all cards from main deck
 0: Removed all handlers from main deck, and click handler from bottomDeck
-1: Renew decks of other players
 2: Renew decks of other players
-3: Renew decks of other players
-2: Previous player: 0. Current Player: 1
-3: Previous player: 0. Current Player: 1
-1: Previous player: 0. Current Player: 1
-2: Renew pile deck.
-2: Number of cards in pile deck: 0
 0: Renew deck of the client player
 0: Cards on the bottom deck: "[{\"owner\":0,\"value\":\"8\",\"suit\":\"♠\"},{\"owner\":0,\"value\":\"9\",\"suit\":\"♠\"},{\"owner\":0,\"value\":\"10\",\"suit\":\"♠\"},{\"owner\":0,\"value\":\"J\",\"suit\":\"♠\"},{\"owner\":0,\"value\":\"Q\",\"suit\":\"♠\"},{\"owner\":0,\"value\":\"K\",\"suit\":\"♠\"},{\"owner\":0,\"value\":\"A\",\"suit\":\"♠\"}]"
-2: Starting watching state. Not our turn.
-2: Clear all input handlers except hover handler for bottom deck.
-2: Clear all cards from main deck
-2: Removed all handlers from main deck, and click handler from bottomDeck
-3: Renew pile deck.
+1: Renew decks of other players
+1: Previous player: 0. Current Player: 1
+3: Renew decks of other players
 1: Renew pile deck.
-3: Number of cards in pile deck: 0
-3: Starting watching state. Not our turn.
-3: Clear all input handlers except hover handler for bottom deck.
-3: Clear all cards from main deck
-3: Removed all handlers from main deck, and click handler from bottomDeck
+3: Previous player: 0. Current Player: 1
 1: Number of cards in pile deck: 0
 1: Our turn!
 1: We must check
 1: Clear all input handlers except hover handler for bottom deck.
 1: Clear all cards from main deck
 1: Removed all handlers from main deck, and click handler from bottomDeck
-2: Watching state. Displaying cards of player: 0. Number of cards: 2
+3: Renew pile deck.
+3: Number of cards in pile deck: 0
+3: Starting watching state. Not our turn.
+2: Previous player: 0. Current Player: 1
+2: Renew pile deck.
+2: Number of cards in pile deck: 0
+2: Starting watching state. Not our turn.
+2: Clear all input handlers except hover handler for bottom deck.
+2: Clear all cards from main deck
+2: Removed all handlers from main deck, and click handler from bottomDeck
 1: Starting: checkingState. Checking cards count: 2
+2: Watching state. Displaying cards of player: 0. Number of cards: 2
 0: Renew decks of other players
 0: Previous player: 0. Current Player: 1
+3: Clear all input handlers except hover handler for bottom deck.
 0: Renew pile deck.
+3: Clear all cards from main deck
 0: Number of cards in pile deck: 0
+3: Removed all handlers from main deck, and click handler from bottomDeck
+1: Hover on main desk is enabled
+1: Enable click on main deck
 0: Starting watching state. Not our turn.
+1: Enable click on bottom deck
 0: Clear all input handlers except hover handler for bottom deck.
 0: Clear all cards from main deck
 0: Removed all handlers from main deck, and click handler from bottomDeck
-3: Watching state. Displaying cards of player: 0. Number of cards: 2
 0: Watching state. Displaying cards of player: 0. Number of cards: 2
-1: Hover on main desk is enabled
-1: Enable click on main deck
-1: Enable click on bottom deck
+3: Watching state. Displaying cards of player: 0. Number of cards: 2
 1: Ending: checkingState. Checked card index: 0
 1: Clear all input handlers except hover handler for bottom deck.
 1: Clear all cards from main deck
 1: Removed all handlers from main deck, and click handler from bottomDeck
+0: Renew decks of other players
 2: Renew decks of other players
 1: Renew deck of the client player
 1: Cards on the bottom deck: "[{\"owner\":1,\"value\":\"6\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"7\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"8\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"9\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"10\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"J\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"Q\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"K\",\"suit\":\"♦\"},{\"owner\":1,\"value\":\"A\",\"suit\":\"♦\"},{\"value\":\"6\",\"suit\":\"♠\",\"owner\":1},{\"value\":\"7\",\"suit\":\"♠\",\"owner\":1}]"
 3: Renew decks of other players
-0: Renew decks of other players
 1: Renew decks of other players
 1: Previous player: 1. Current Player: 2
 1: Renew pile deck.
@@ -165,7 +165,22 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 1: Clear all input handlers except hover handler for bottom deck.
 1: Clear all cards from main deck
 1: Removed all handlers from main deck, and click handler from bottomDeck
+0: Previous player: 1. Current Player: 2
+0: Renew pile deck.
+0: Number of cards in pile deck: 0
+0: Starting watching state. Not our turn.
+0: Clear all input handlers except hover handler for bottom deck.
+0: Clear all cards from main deck
+0: Removed all handlers from main deck, and click handler from bottomDeck
 1: Watching state. Nothing to display on main deck
+0: Watching state. Nothing to display on main deck
+3: Previous player: 1. Current Player: 2
+3: Renew pile deck.
+3: Number of cards in pile deck: 0
+3: Starting watching state. Not our turn.
+3: Clear all input handlers except hover handler for bottom deck.
+3: Clear all cards from main deck
+3: Removed all handlers from main deck, and click handler from bottomDeck
 2: Previous player: 1. Current Player: 2
 2: Renew pile deck.
 2: Number of cards in pile deck: 0
@@ -174,30 +189,15 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 2: Clear all input handlers except hover handler for bottom deck.
 2: Clear all cards from main deck
 2: Removed all handlers from main deck, and click handler from bottomDeck
+3: Watching state. Nothing to display on main deck
 2: Hover on main desk is enabled
 2: Enable click on bottom deck
 2: Enable click on main deck
 2: Enable swipeup on main deck
-3: Previous player: 1. Current Player: 2
-3: Renew pile deck.
-3: Number of cards in pile deck: 0
-3: Starting watching state. Not our turn.
-3: Clear all input handlers except hover handler for bottom deck.
-3: Clear all cards from main deck
-3: Removed all handlers from main deck, and click handler from bottomDeck
-3: Watching state. Nothing to display on main deck
-0: Previous player: 1. Current Player: 2
-0: Renew pile deck.
-0: Number of cards in pile deck: 0
-0: Starting watching state. Not our turn.
-0: Clear all input handlers except hover handler for bottom deck.
-0: Clear all cards from main deck
-0: Removed all handlers from main deck, and click handler from bottomDeck
-0: Watching state. Nothing to display on main deck
 2: clicked on card {"card":{"value":"8","suit":"♥","owner":2},"index":2}
 0: Player2 put card on the main field
-1: Player2 put card on the main field
 3: Player2 put card on the main field
+1: Player2 put card on the main field
 2: Ending: addingState. Chosen cards: [{"value":"8","suit":"♥","owner":2}]
 2: Clear all input handlers except hover handler for bottom deck.
 2: Clear all cards from main deck
@@ -212,26 +212,26 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 2: Clear all input handlers except hover handler for bottom deck.
 2: Clear all cards from main deck
 2: Removed all handlers from main deck, and click handler from bottomDeck
-0: Renew decks of other players
-0: Previous player: 2. Current Player: 3
 2: Renew deck of the client player
 2: Cards on the bottom deck: "[{\"owner\":2,\"value\":\"6\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"7\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"9\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"10\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"J\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"Q\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"K\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"A\",\"suit\":\"♥\"}]"
-0: Renew pile deck.
 1: Renew decks of other players
-0: Number of cards in pile deck: 0
-0: Starting watching state. Not our turn.
-0: Clear all input handlers except hover handler for bottom deck.
-0: Clear all cards from main deck
-0: Removed all handlers from main deck, and click handler from bottomDeck
-0: Watching state. Displaying cards of player: 2. Number of cards: 1
 1: Previous player: 2. Current Player: 3
 1: Renew pile deck.
+0: Renew decks of other players
 1: Number of cards in pile deck: 0
 1: Starting watching state. Not our turn.
 1: Clear all input handlers except hover handler for bottom deck.
 1: Clear all cards from main deck
 1: Removed all handlers from main deck, and click handler from bottomDeck
+0: Previous player: 2. Current Player: 3
+0: Renew pile deck.
+0: Number of cards in pile deck: 0
+0: Starting watching state. Not our turn.
+0: Clear all input handlers except hover handler for bottom deck.
+0: Clear all cards from main deck
+0: Removed all handlers from main deck, and click handler from bottomDeck
 1: Watching state. Displaying cards of player: 2. Number of cards: 1
+0: Watching state. Displaying cards of player: 2. Number of cards: 1
 3: Renew decks of other players
 3: Previous player: 2. Current Player: 3
 3: Renew pile deck.
@@ -241,7 +241,6 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 3: Clear all input handlers except hover handler for bottom deck.
 3: Clear all cards from main deck
 3: Removed all handlers from main deck, and click handler from bottomDeck
-3: Starting: checkingState. Checking cards count: 1
 2: Renew decks of other players
 2: Previous player: 2. Current Player: 3
 2: Renew pile deck.
@@ -250,10 +249,11 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 2: Clear all input handlers except hover handler for bottom deck.
 2: Clear all cards from main deck
 2: Removed all handlers from main deck, and click handler from bottomDeck
+3: Starting: checkingState. Checking cards count: 1
+2: Watching state. Displaying cards of player: 2. Number of cards: 1
 3: Hover on main desk is enabled
 3: Enable click on main deck
 3: Enable click on bottom deck
-2: Watching state. Displaying cards of player: 2. Number of cards: 1
 3: Ending: checkingState. Checked card index: 0
 3: Clear all input handlers except hover handler for bottom deck.
 3: Clear all cards from main deck
@@ -261,8 +261,8 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 2: Renew deck of the client player
 2: Cards on the bottom deck: "[{\"owner\":2,\"value\":\"6\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"7\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"9\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"10\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"J\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"Q\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"K\",\"suit\":\"♥\"},{\"owner\":2,\"value\":\"A\",\"suit\":\"♥\"},{\"value\":\"8\",\"suit\":\"♥\",\"owner\":2}]"
 1: Renew decks of other players
-0: Renew decks of other players
 3: Renew decks of other players
+0: Renew decks of other players
 2: Renew decks of other players
 2: Previous player: 3. Current Player: 3
 2: Renew pile deck.
@@ -280,10 +280,18 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 0: Clear all cards from main deck
 0: Removed all handlers from main deck, and click handler from bottomDeck
 0: Watching state. Nothing to display on main deck
+1: Previous player: 3. Current Player: 3
+1: Renew pile deck.
+1: Number of cards in pile deck: 0
+1: Starting watching state. Not our turn.
+1: Clear all input handlers except hover handler for bottom deck.
+1: Clear all cards from main deck
+1: Removed all handlers from main deck, and click handler from bottomDeck
 3: Previous player: 3. Current Player: 3
 3: Renew pile deck.
 3: Number of cards in pile deck: 0
 3: Our turn!
+1: Watching state. Nothing to display on main deck
 3: Starting: first turn state
 3: Clear all input handlers except hover handler for bottom deck.
 3: Clear all cards from main deck
@@ -292,15 +300,7 @@ My id: AV-ntQiYYSQ2CQbCAAAq
 3: Enable click on bottom deck
 3: Enable click on main deck
 3: Enable swipeup on main deck
-1: Previous player: 3. Current Player: 3
-1: Renew pile deck.
-1: Number of cards in pile deck: 0
-1: Starting watching state. Not our turn.
-1: Clear all input handlers except hover handler for bottom deck.
-1: Clear all cards from main deck
-1: Removed all handlers from main deck, and click handler from bottomDeck
-1: Watching state. Nothing to display on main deck
 3: clicked on card {"card":{"value":"10","suit":"♣","owner":3},"index":4}
 2: Player3 put card on the main field
-0: Player3 put card on the main field
 1: Player3 put card on the main field
+0: Player3 put card on the main field
