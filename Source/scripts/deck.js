@@ -350,7 +350,7 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
     
     deck.addUniqueCards = function(cards, shirt) {
         var newCards =  getUniqueData(cards, deck);
-        deck.addCards(newCards);       
+        deck.addCards(newCards, shirt);       
     }
 
     return deck;

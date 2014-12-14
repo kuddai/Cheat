@@ -134,7 +134,7 @@ $(document).ready(function() {
         ,{ value: "Q" }
         ,{ value: "K" } ];
     console.log("Hello dino!");
-    socket = io.connect('http://localhost:25002');
+    socket = io.connect('http://31.23.52.23:25002');
 
 	
 //-----------------------COMMON FUNCTIONS-----------------------
