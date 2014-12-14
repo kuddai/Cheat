@@ -205,11 +205,7 @@ $(document).ready(function() {
     function transfer(fromDeck, toDeck, info, shirt, duplicate) {
         fromDeck.removeCard(info.index);
         fromDeck.update();
-        if (duplicate) {
-            toDeck.addCards( [ info.card ], shirt);
-        } else {
-            toDeck.addUniqueCards( [ info.card ], shirt);
-        }
+        toDeck.addCards( [ info.card ], shirt);
         toDeck.update();
     }
 	
@@ -292,7 +288,7 @@ $(document).ready(function() {
 	    //body
 	    endStateAndClearMain();
 	    console.log(clientPlayerId + ": " +"Starting: choosingRoundCardState. Chosen cards: " + JSON.stringify(chosenCards));
-	    mainDeck.addUniqueCards(ALL_CARDS, "open");
+	    mainDeck.addCards(ALL_CARDS, "open");
 	    mainDeck.update();
 	    enableHoverOnMainDeck();
 	    //handlers
@@ -312,7 +308,7 @@ $(document).ready(function() {
 	    endStateAndClearMain();
 	    console.log(clientPlayerId + ": " +"Starting: checkingState. Checking cards count: " + checkingCards.length);
 	    var previousPlayerId = checkingCards[0].owner;
-	    mainDeck.addUniqueCards(checkingCards, getShirt(previousPlayerId));
+	    mainDeck.addCards(checkingCards, getShirt(previousPlayerId));
 	    mainDeck.update();
 	    enableHoverOnMainDeck();
 	    //handlers
@@ -350,14 +346,13 @@ $(document).ready(function() {
     socket.once('connect', function() {
 //-----------------------HELP FUNCTIONS-----------------------
 		console.log(clientPlayerId + ": " +"i am inside socket once!");
-		socket.emit("message", "hi bro. You are sucker! XYU");
         function renewClientPlayerDeck(rawData) {
             
             //bottomDeck.removeAll();
             var clientCards = JSON.parse(rawData);
             console.log(clientPlayerId + ": " +"Renew deck of the client player");
             console.log(clientPlayerId + ": " +"Cards on the bottom deck: " + JSON.stringify(rawData));
-    		bottomDeck.addUniqueCards(clientCards, "open");
+    		bottomDeck.addCards(clientCards, "open");
     		bottomDeck.update();
         }
         
@@ -400,7 +395,7 @@ $(document).ready(function() {
     		fillPlayersDecks(clientPlayerId);
             //ResetDecks();
             bottomDeck.removeAll();
-    		bottomDeck.addUniqueCards(parsed.cards, "open");
+    		bottomDeck.addCards(parsed.cards, "open");
     		bottomDeck.update(appereanceTime);
     		enableHoverOnBottomDeck();
     		//rus

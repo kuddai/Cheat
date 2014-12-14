@@ -307,6 +307,11 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         }
         return newCards;
     }
+    
+    function isOpenShirt(shirt) {
+        var regExp = /open/
+        return regExp.test(shirt);
+    }
     /*
      Gets data of all cards in the deck
      Parameters:
@@ -341,6 +346,9 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         duplicate - allow same cards in the deck
      */
     deck.addCards = function(cards, shirt) {
+        if (isOpenShirt(shirt)) {
+            cards = getUniqueData(cards);
+        }
         for (var i = 0; i < cards.length; i++) {
             // Здесь была опечатка cards[i] вместо newCards[i]
             var $card = DeckDW.create$Card(cards[i], shirt);
