@@ -340,14 +340,18 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         shirt - name of cards CSS style
         duplicate - allow same cards in the deck
      */
-    deck.addCards = function(cards, shirt, duplicate) {
-        var newCards = (duplicate) ? cards : getUniqueData(cards, deck);
-        for (var i = 0; i < newCards.length; i++) {
+    deck.addCards = function(cards, shirt) {
+        for (var i = 0; i < cards.length; i++) {
             // Здесь была опечатка cards[i] вместо newCards[i]
-            var $card = DeckDW.create$Card(newCards[i], shirt);
+            var $card = DeckDW.create$Card(cards[i], shirt);
             deck.add$Card($card);
         }
     };
+    
+    deck.addUniqueCards = function(cards, shirt) {
+        var newCards =  getUniqueData(cards, deck);
+        deck.addCards(newCards);       
+    }
 
     return deck;
 }

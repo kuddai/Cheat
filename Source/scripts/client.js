@@ -34,7 +34,7 @@
         Получаем popUp и popDown сообщения ото всех игроков и
         отслеживаем измениния в количестве их карт.
         
-    Докладывание карт на стол:
+    Докладывание карт на стол (addingState):
         Если bundle не пуст (подсостояние "Верю") и отображаем карту на столе,
         переданную через bundle.
         По нажатию на карту из колоды текущего игрока, она убирается из колоды
@@ -49,7 +49,7 @@
         отправляет выбранные карты на сервер (передается ход следующему игроку) и 
         переходит в состояние "Наблюдение".  
         
-    Выбор карты раунда:
+    Выбор карты раунда (choosingRoundCardState):
         На столе отображаются все возможные значения карт, кроме
         туза. По нажатию на карту на столе, она становится картой 
         раунда, а карты с состояния "Докладывание карт на стол" отправляются
@@ -58,7 +58,7 @@
         убирать их с него. Для всех остальных игроков на столе остаются
         карты из состояния "Докладывание карт на стол". 
         
-    Можно проверить:
+    Можно проверить(checkingState):
         На столе находятся карты, выложенные на стол предыдущим игроком и
         замаскированные под текущую карту раунда. 
         По нажатию на любую из них происходит переход в состояние "Проверка" с
@@ -68,7 +68,7 @@
         "Докладывание карт на стол" (подсостояние "Верю"), при том убирает 
         у себя нажатую карту и передает ее в состояние "Докладывание карт на стол". 
         
-    Проверка:
+    Проверка (checkedState):
         Отсылка на сервер индекса и ждем от него ответа. Все описанное ниже
         определяется на основе ответа от сервера.
         Если поймали на лжи (текущий игрок является клиентом), то переходим в 
@@ -205,7 +205,11 @@ $(document).ready(function() {
     function transfer(fromDeck, toDeck, info, shirt, duplicate) {
         fromDeck.removeCard(info.index);
         fromDeck.update();
-        toDeck.addCards( [ info.card ], shirt, duplicate);
+        if (duplicate) {
+            toDeck.addCards( [ info.card ], shirt);
+        } else {
+            toDeck.addUniqueCards( [ info.card ], shirt);
+        }
         toDeck.update();
     }
 	
@@ -288,7 +292,7 @@ $(document).ready(function() {
 	    //body
 	    endStateAndClearMain();
 	    console.log(clientPlayerId + ": " +"Starting: choosingRoundCardState. Chosen cards: " + JSON.stringify(chosenCards));
-	    mainDeck.addCards(ALL_CARDS, "open");
+	    mainDeck.addUniqueCards(ALL_CARDS, "open");
 	    mainDeck.update();
 	    enableHoverOnMainDeck();
 	    //handlers
@@ -308,7 +312,7 @@ $(document).ready(function() {
 	    endStateAndClearMain();
 	    console.log(clientPlayerId + ": " +"Starting: checkingState. Checking cards count: " + checkingCards.length);
 	    var previousPlayerId = checkingCards[0].owner;
-	    mainDeck.addCards(checkingCards, getShirt(previousPlayerId));
+	    mainDeck.addUniqueCards(checkingCards, getShirt(previousPlayerId));
 	    mainDeck.update();
 	    enableHoverOnMainDeck();
 	    //handlers
@@ -333,7 +337,7 @@ $(document).ready(function() {
 	        var owner = mainDeckCards[0].owner;
 	        console.log(clientPlayerId + ": " +"Watching state. Displaying cards of player: " + owner + 
 	        ". Number of cards: " + mainDeckCards.length);
-	        mainDeck.addCards(mainDeckCards, getShirt(owner), true);
+	        mainDeck.addCards(mainDeckCards, getShirt(owner));
 	        mainDeck.update();
 	    } else {
 	        console.log(clientPlayerId + ": " +"Watching state. Nothing to display on main deck");
@@ -353,7 +357,7 @@ $(document).ready(function() {
             var clientCards = JSON.parse(rawData);
             console.log(clientPlayerId + ": " +"Renew deck of the client player");
             console.log(clientPlayerId + ": " +"Cards on the bottom deck: " + JSON.stringify(rawData));
-    		bottomDeck.addCards(clientCards, "open");
+    		bottomDeck.addUniqueCards(clientCards, "open");
     		bottomDeck.update();
         }
         
@@ -369,7 +373,7 @@ $(document).ready(function() {
 			    
 			    if (!isClientPlayer && !isNumberSame) { 
                     playerDeck.removeAll();
-    				playerDeck.addCards(newCards, getShirt(playerId), true);
+    				playerDeck.addCards(newCards, getShirt(playerId));
                     playerDeck.update();
 			    }
 			}        
@@ -380,10 +384,10 @@ $(document).ready(function() {
             pileDeck.removeAll();
             for (var i = 0; i < pileCards.length; i++) {
                 var pileCard = pileCards[i];
-                pileDeck.addCards([ pileCard ], getShirt(pileCard.owner), true);
+                pileDeck.addCards([ pileCard ], getShirt(pileCard.owner));
             }
             pileDeck.update();  
-            console.log(clientPlayerId + ": " +"Number of cards in pile deck: " + pileCards.length);
+            console.log(clientPlayerId + ": Number of cards in pile deck: " + pileCards.length);
         }
         
         function startGame(playerInfo) {
@@ -396,7 +400,7 @@ $(document).ready(function() {
     		fillPlayersDecks(clientPlayerId);
             //ResetDecks();
             bottomDeck.removeAll();
-    		bottomDeck.addCards(parsed.cards, "open");
+    		bottomDeck.addUniqueCards(parsed.cards, "open");
     		bottomDeck.update(appereanceTime);
     		enableHoverOnBottomDeck();
     		//rus
