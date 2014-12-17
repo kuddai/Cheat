@@ -297,7 +297,12 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
     }
 
     function getUniqueData(cards) {
-        var newCards = [];
+        var deckCards = _.map(deck.$cards, DeckDW.extractData);
+        return _.filter(cards, function (card) { 
+            return _.find()
+        });
+        /*
+        //var newCards = [];
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
             if (!contains(card)) {
@@ -305,7 +310,7 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
                 newCards.push(card);
             }
         }
-        return newCards;
+        return newCards;*/
     }
     
     function isOpenShirt(shirt) {
@@ -355,11 +360,6 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
             deck.add$Card($card);
         }
     };
-    
-    deck.addUniqueCards = function(cards, shirt) {
-        var newCards =  getUniqueData(cards, deck);
-        deck.addCards(newCards, shirt);       
-    }
 
     return deck;
 }
@@ -395,7 +395,7 @@ DeckDW.extractData = function($card) {
     jQuery object which represents a new card
  */
 DeckDW.create$Card = function(card, shirt) {
-    var color = (card.suit === "♦" || card.suit === "♥") ? "red" : "";
+    var color = (card.suit === "♦" || card.suit === "♥" ? "red" : "";
     var value = card.value || "";
     var suit = card.suit || "";
     var markup = "<div   class='card" + " " + shirt + " " + color + "' " +
