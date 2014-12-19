@@ -508,7 +508,7 @@ $(document).ready(function() {
                  console.log(clientPlayerId + ": " +"We must check");
                 checkingState(canCheckCards);
             } else {
-                console.log(clientPlayerId + ": " +"Error! It is our turn, but we there is no suitable state.");
+                console.log(clientPlayerId + ": " +"Error! It is our turn, but there is no suitable state.");
                 console.log(clientPlayerId + ": " +"Has cards to check: " + hasCardsToCheck + 
                           ". Has pile cards: " + hasPileCards);
             }
@@ -517,7 +517,7 @@ $(document).ready(function() {
         // ERROR HANDLER
 		// Сообщение приходит в виде строки
         socket.on("gameError", function(msg) {
-            console.log(clientPlayerId + ": " +msg);
+            console.log(clientPlayerId + ": " + msg);
         });
 		// Положить карту на стол. Card - конкретная карта 
         socket.on("setCard", transferToMainFromOthers);
