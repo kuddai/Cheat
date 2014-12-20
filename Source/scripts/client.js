@@ -437,7 +437,7 @@ $(document).ready(function() {
         
         function popCard(deckKey, cardIndex, up){
             var deck = (deckKey === "mainDeck") ? mainDeck : playerDecks[deckKey];
-            var $card = $(deck.$cards.get(cardIndex));
+            var $card = $(deck.$cards[cardIndex]);
             
             if (up) {
                 deck.popUp($card);

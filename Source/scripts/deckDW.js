@@ -8,8 +8,12 @@
      deadTime - time needed to perform removing animation
      popTime - time needed to perform pop animation
  */
-function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
+function createDeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
     var deck = new Deck(fieldSelector, updateType, updateTime, deadTime , popTime);
+    return new DeckDW(deck);
+}
+ 
+function DeckDW(deck) {
     
     function createMarkup(card, shirt) {
         var color = (card.suit && (card.suit === "♦" || card.suit === "♥")) ? "red" : "";
@@ -30,10 +34,6 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
     
     function getKey(card) {
         return card.value + card.suit;
-    }    
-    
-    function isOpenShirt(shirt) {
-        return shirt == "open";
     }
     
     function $cardsEnumerator() {
@@ -45,29 +45,6 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         .Generate(function() { return $(markup); }, cardCount)
         .ForEach(function($card) { deck.add$Card($card); });          
     }
-    /*
-     Gets data of all cards in the deck
-     Parameters:
-        index - card index
-     Return:
-        array of JSON data of all cards in the deck.
-        format {owner, suit, value}
-     */
-    deck.getCards = function() {
-        $cardsEnumerator()
-        .Select(DeckDW.extract)
-        .ToArray();
-    };
-    
-    /*
-     Removes card with certain index from the deck
-     Parameters:
-        index - card index
-     */
-    deck.removeCard = function(index) {
-        var $card = $(deck.$cards.get(index));
-        deck.remove$Card($card);
-    };
     
     function setOther(currentCount, shirt, cardValue) {     
         function $cardsWithGivenShirt() {
@@ -93,7 +70,6 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         } else {
             decrease(Math.abs(diff));
         }
-        deck.update();
     }
 
     function setOpen(currentCards) {
@@ -109,17 +85,13 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         }     
         function addNew(prev, cur) {
             var newCards = Enumerable.From(cur).Except(prev, getKey);
-            var attach = function(card) {
-                var $card = $(createMarkup(card, "open"));
-                deck.add$Card($card);
-            };
+            var attach = function(card) { deck.addCard(card, "open"); };
             newCards.forEach(attach);            
         }
         
         var previousCards = deck.getCards();
         removeObsolete(previousCards, currentCards);
         addNew(previousCards, currentCards);
-        deck.update();
     }
     
     function setPile(currentCards, ownerToShirt) {
@@ -127,13 +99,12 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
         .From(currentCards)
         .GroupBy("$.owner")
         .ForEach(function(group) {
-                var count = group.Count();
-                var owner = group.Key();
-                var shirt = ownerToShirt(owner);
-                var roundCardValue = group.First().value;
-                setOther(count, shirt, roundCardValue);
-            });
-        deck.update();
+            var count = group.Count();
+            var owner = group.Key();
+            var shirt = ownerToShirt(owner);
+            var roundCardValue = group.First().value;
+            setOther(count, shirt, roundCardValue);
+        });
     }
     
     deck.set = function() {
@@ -142,6 +113,7 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
             .From(args)
             .Select(function(arg) { return jQuery.type(args); })
             .ToString(", ");
+            
         switch(signature) {
             case "array, string":
                 setOpen(args[0]);
@@ -156,23 +128,47 @@ function DeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
                 setOther(args[0], args[1], args[2]);
                 break;
             default:
-                console.log("Error! Unknown signature: " + signature);
+                console.error("Unknown signature: " + signature);
         }
-    }
+        deck.update();
+    };
+    
+    deck.to = function(otherDeck, cardArg, cardValue) {
+        var $card = (cardArg.jquery) ? cardArg : deck.get(cardArg);
+        var index = (cardArg.jquery) ? deck.$cards.index($card) : cardArg;
+        var shirt = DeckDW.extractShirt($card);
+        var card = DeckDW.extract($card);
+        card.value = (cardValue) ? cardValue : card.value;
+        
+        deck.remove$Card($card);
+        deck.update();
+        otherDeck.addCard(card, shirt);
+        otherDeck.update();
+        
+        return index;
+    };
+
+    deck.getCards = function(owner) {
+        function cardWithOwner($card) {
+            var card = DeckDW.extract($card);
+            card.owner = owner;
+            return card;
+        }
+        return $cardsEnumerator().Select(cardWithOwner).ToArray();
+    };
+    
+    deck.addCard = function(card, shirt) {
+        var $card = $(createMarkup(card, shirt));
+        deck.add$Card($card);
+    };
+    
+    deck.removeCard = function(index) {
+        var $card = $(deck.$cards.get(index));
+        deck.remove$Card($card);
+    };
 
     return deck;
 }
-/*
-  Compares two cards values.
-  Parameters:
-    firstCard - JSON data object {owner, suit, value}
-    secondCard - JSON data object {owner, suit, value}
- */
-DeckDW.compare = function(firstCard, secondCard) {
-    var firstValue = firstCard.value || "", secondValue = secondCard.value || "";
-    var firstSuit = firstCard.suit || "", secondSuit = secondCard.suit || "";
-    return firstCard.value === secondCard.value && firstCard.suit === secondCard.suit;
-};
 
 /*
  Extract JSON data from jQuery object
@@ -184,25 +180,13 @@ DeckDW.compare = function(firstCard, secondCard) {
 DeckDW.extract = function($card) {
     return { value: $card.attr('value'), suit: $card.attr('suit') };
 };
-/*
-  Creates jQuery Object for the given card data
-  Parmeters:
-    card - JSON data object {owner, suit, value}
-    shirt - Name of css style which will be applied to the result card
-            (possible values: 'open', 'shirt1', 'shirt2', 'shirt3', 'shirt4')
-  Return:
-    jQuery object which represents a new card
- */
-DeckDW.createMarkup = function(card, shirt) {
-    var color = (card.suit && (card.suit === "♦" || card.suit === "♥")) ? "red" : "";
-    var value = card.value || "";
-    var suit = card.suit || "";
-    var markup = "<div   class='card" + " " + shirt + " " + color + "' " +
-                        "value='" + value + "' " +
-                        "suit='" + suit + "'>\n" +
-                    "<p>" + suit + "</p>\n" +
-                 "</div>\n";
-    return markup;
+
+DeckDW.extractShirt = function($card) {
+    if ($card.hasClass("open")) {
+        return "open";
+    }
+    var found = $card.attr("class").match(/(shirt\d)/);
+    return (found) ? found[0] : "";
 };
 
 

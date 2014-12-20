@@ -13,8 +13,11 @@
 function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
     //status="{ alive | dead | removing}" fx="#{final X coordinate} fy="#{final Y coordinate}"
     //frotate="#{final angle}" fo="#{final opacity}" fw="#{final width}"
+    //if status is alive then it is normal card. It could be hovered and clicked
+    //if status is removing then it fades out until it becomes dead and it is completely removed from DOM
     var $field = $(fieldSelector);
     this.$field = $field;
+    
     this.$cards = $field.find('.card[status="alive"]');
     var self = this;
     var updatePosition;
@@ -33,7 +36,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         updatePosition = updateRadially;
         animateAll = animateAllCards;
     } else {
-        console.log("ERROR! Invalid update type: " + updateType + ". Please use horizontal, vertical or radial instead.");
+        console.error("Invalid update type: " + updateType + ". Please use horizontal, vertical or radial instead.");
     }
 
     function getTransformCSS($card) {
@@ -172,8 +175,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         $card.attr('fy', finalY);
         animateCard($card, popTime);
     }
-
-
+    
     /*
      Adds $card (with its shirt, suit and value) to the $field and
      update $cards list. You need to call update to display this changes.
@@ -269,5 +271,21 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
      */
     this.popDown = function($card) {
         pop($card, 0);
+    };
+    
+    this.pop = function($card, up) {
+        if (up) {
+            this.popUp($card);
+        } else {
+            this.popDown($card);
+        }        
+    };
+    
+    this.toggleHighLighting = function() {
+        if ($field.hasClass("highlight")) {
+            $field.removeClass("highlight");
+        } else {
+            $field.addClass("highlight");
+        }
     };
 }//End Deck
