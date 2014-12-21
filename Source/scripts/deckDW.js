@@ -16,6 +16,10 @@ function createDeckDW(fieldSelector, updateType, updateTime, deadTime , popTime)
 function DeckDW(deck) {
     
     function createMarkup(card, shirt) {
+        if (!shirt) {
+            throw new Error("No shirt given. Card must have shirt");
+        }
+        
         var color = (card.suit && (card.suit === "♦" || card.suit === "♥")) ? "red" : "";
         var value = card.value || "";
         var suit = card.suit || "";
@@ -37,12 +41,12 @@ function DeckDW(deck) {
     }
     
     function $cardsEnumerator() {
-        return Enumerable.From(deck.$cards).select(function(el) { return $(el); });
+        return Enumerable.From(deck.$cards).Select(function(el) { return $(el); });
     }
     
-    function addIdentic$Cards(markup, cardCount){
+    function addIdentic$Cards(cardMarkup, count){
         Enumerable
-        .Generate(function() { return $(markup); }, cardCount)
+        .Generate(function() { return $(cardMarkup); }, count)
         .ForEach(function($card) { deck.add$Card($card); });          
     }
     
@@ -81,12 +85,12 @@ function DeckDW(deck) {
                 var $card = to$Card.Get(key);
                 deck.remove$Card($card);
             };
-            obsoleteCards.forEach(discard);
+            obsoleteCards.ForEach(discard);
         }     
         function addNew(prev, cur) {
             var newCards = Enumerable.From(cur).Except(prev, getKey);
             var attach = function(card) { deck.addCard(card, "open"); };
-            newCards.forEach(attach);            
+            newCards.ForEach(attach);            
         }
         
         var previousCards = deck.getCards();
@@ -111,7 +115,7 @@ function DeckDW(deck) {
         var args = arguments;
         var signature = Enumerable
             .From(args)
-            .Select(function(arg) { return jQuery.type(args); })
+            .Select(function(arg) { return jQuery.type(arg); })
             .ToString(", ");
             
         switch(signature) {
@@ -128,13 +132,13 @@ function DeckDW(deck) {
                 setOther(args[0], args[1], args[2]);
                 break;
             default:
-                console.error("Unknown signature: " + signature);
+                throw new Error("Unknown signature: " + signature);
         }
         deck.update();
     };
     
     deck.to = function(otherDeck, cardArg, cardValue) {
-        var $card = (cardArg.jquery) ? cardArg : deck.get(cardArg);
+        var $card = (cardArg.jquery) ? cardArg : $(deck.$cards.get(cardArg));
         var index = (cardArg.jquery) ? deck.$cards.index($card) : cardArg;
         var shirt = DeckDW.extractShirt($card);
         var card = DeckDW.extract($card);
@@ -151,14 +155,17 @@ function DeckDW(deck) {
     deck.getCards = function(owner) {
         function cardWithOwner($card) {
             var card = DeckDW.extract($card);
-            card.owner = owner;
+            if (owner) {
+                card.owner = owner;
+            }
             return card;
         }
         return $cardsEnumerator().Select(cardWithOwner).ToArray();
     };
     
     deck.addCard = function(card, shirt) {
-        var $card = $(createMarkup(card, shirt));
+        var cardMarkup = createMarkup(card, shirt);
+        var $card = $(cardMarkup);
         deck.add$Card($card);
     };
     

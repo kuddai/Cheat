@@ -36,7 +36,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         updatePosition = updateRadially;
         animateAll = animateAllCards;
     } else {
-        console.error("Invalid update type: " + updateType + ". Please use horizontal, vertical or radial instead.");
+        throw new Error("Invalid update type: " + updateType + ". Please use horizontal, vertical or radial instead.");
     }
 
     function getTransformCSS($card) {
@@ -199,6 +199,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         $card.attr('status', 'alive');
         var $last = this.$cards.last();
         $card.css(getTransformCSS($last));
+        
         $field.append($card);
         this.$cards = $field.find('.card[status="alive"]');
     };

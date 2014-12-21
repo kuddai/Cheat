@@ -4,12 +4,46 @@
   <meta charset="utf-8">
   <title>QUnit Example</title>
   <link rel="stylesheet" href="qunit.css">
+  <link rel="stylesheet" href="../css/cards.css" />
   <script src="qunit.js"></script>
   <script src="tests.js"></script>
+  <script src="../scripts/jquery.js"></script>
+  <script src="../scripts/jquerypp.custom.js"></script>
+  <script src="../scripts/jquery.transit.min.js"></script>
+  <script src="../scripts/linq.min.js"></script>
+  <script src="../scripts/deck.js"></script>
+  <script src="../scripts/deckDW.js"></script>
+  <script src="testDeckDW.js"></script>
 </head>
 <body>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+
+<div class="game-container">
+	<div class="layer-top">
+		<div class="player-top">
+		</div>
+		<div class="pile">
+		</div>
+	</div>
+	<div class="layer-middle">
+		<div class="player-left">
+		</div>
+		<div class="main-field">			
+		</div>
+		<div class="player-right">
+		</div>
+	</div>
+	<div class="layer-bottom">
+		<div class="player-bottom">
+			<!--div class="card open red" value="K" suit="♦">
+			  <p>♦</p>
+			</div-->
+		</div>		
+	</div>
+</div>
+
+</div>
   
 </body>
 </html>
