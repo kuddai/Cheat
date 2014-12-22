@@ -1,12 +1,12 @@
+var timings = { updateTime: 700, deadTime: 1200, popTime: 400};
+
 function createBottomDeck() {
-    var appereanceTime = 2000, updateTime = 700, deadTime = 1200, popTime = 400;
-    var bottomDeck = createDeckDW('.player-bottom', 'horizontal', updateTime, deadTime, popTime);
+    var bottomDeck = createDeckDW('.player-bottom', 'horizontal', timings );
     return bottomDeck;
 }
 
 function createMainDeck() {
-    var appereanceTime = 2000, updateTime = 700, deadTime = 1200, popTime = 400;
-    var mainDeck = createDeckDW('.main-field', 'horizontal', updateTime, deadTime, popTime);
+    var mainDeck = createDeckDW('.main-field', 'horizontal', timings);
     return mainDeck;
 }
 
@@ -78,7 +78,7 @@ QUnit.test( "unknown signature error in deck.set", function(assert) {
     );
 });
 
-QUnit.test( "deck.set for open cards (signature: cards, 'open')", function(assert) {
+QUnit.test( "deck.set open cards (signature: cards, 'open')", function(assert) {
     var deck = createBottomDeck();
     var sample1 = createSample1();
     var sample2 = createSample1();
@@ -93,7 +93,7 @@ QUnit.test( "deck.set for open cards (signature: cards, 'open')", function(asser
     assert.notDeepEqual(deck.getCards(), sample1, "they must be different");  
 });
 
-QUnit.test( "deck.set for cards of other players (signature: cardsCount, 'shirt')", function(assert) {
+QUnit.test( "deck.set cards of other players (signature: cardsCount, 'shirt')", function(assert) {
     var deck = createBottomDeck();
     
     deck.set(5, "shirt1");
@@ -106,7 +106,7 @@ QUnit.test( "deck.set for cards of other players (signature: cardsCount, 'shirt'
     assert.equal(deck.getCards().length, 0, "must be empty"); 
 });
 
-QUnit.test( "deck.set for cards of other players with default value (signature: cardsCount, 'shirt', 'default value')", function(assert) {
+QUnit.test( "deck.set cards of other players with default value (signature: cardsCount, 'shirt', 'default value')", function(assert) {
     var deck = createBottomDeck();  
     deck.set(3, "shirt1", "K");
     for (var i = 0; i < 3; i++) {
@@ -114,7 +114,16 @@ QUnit.test( "deck.set for cards of other players with default value (signature: 
     }
 });
 
-QUnit.test( "deck.set for pile cards (signature: cardsWithOwners, ownerToShirtFunction)", function(assert) {
+QUnit.test( "deck.set cards of other players (signature: cards, 'shirt')", function(assert) {
+    var deck = createBottomDeck();  
+    var sample1 = [{value: "7"}, {value: "7"}];
+    deck.set(sample1, "shirt1");
+    for (var i = 0; i < 2; i++) {
+        assert.deepEqual(deck.getCards()[i], {value: "7", suit: ""}, "must contain 7 value");
+    }
+});
+
+QUnit.test( "deck.set pile cards (signature: cardsWithOwners, ownerToShirtFunction)", function(assert) {
     function getShirt(playerID) {
         var shirtNumber = playerID + 1;//have to add one due to array numeration
         return "shirt" +  shirtNumber;
@@ -220,3 +229,4 @@ QUnit.test( "DeckDW.extractShirt", function(assert) {
     
     assert.equal(DeckDW.extractShirt($card), "shirt3");
 });
+

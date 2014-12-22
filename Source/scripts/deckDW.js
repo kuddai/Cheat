@@ -8,8 +8,10 @@
      deadTime - time needed to perform removing animation
      popTime - time needed to perform pop animation
  */
-function createDeckDW(fieldSelector, updateType, updateTime, deadTime , popTime) {
-    var deck = new Deck(fieldSelector, updateType, updateTime, deadTime , popTime);
+
+function createDeckDW(fieldSelector, updateType, timings) {
+    var t = timings;
+    var deck = new Deck(fieldSelector, t.updateType, t.updateTime, t.deadTime , t.popTime);
     return new DeckDW(deck);
 }
  
@@ -69,6 +71,9 @@ function DeckDW(deck) {
         }
         
         var diff = currentCount - $cardsWithGivenShirt().Count();
+        if (diff === 0) {
+            return;
+        }
         if (diff > 0) {
             increase(diff);
         } else {
@@ -111,6 +116,15 @@ function DeckDW(deck) {
         });
     }
     
+    function chooseOpenOrOtherSet(cards, shirt){
+        if (shirt === "open") {
+            setOpen(cards);
+        } else {
+            var roundCardValue = (cards.length > 0) ? cards[0].value : undefined;
+            setOther(cards.length, shirt, roundCardValue);
+        }
+    }
+    
     deck.set = function() {
         var args = arguments;
         var signature = Enumerable
@@ -120,7 +134,7 @@ function DeckDW(deck) {
             
         switch(signature) {
             case "array, string":
-                setOpen(args[0]);
+                chooseOpenOrOtherSet(args[0], args[1]);
                 break;
             case "array, function":
                 setPile(args[0], args[1]);
@@ -172,6 +186,10 @@ function DeckDW(deck) {
     deck.removeCard = function(index) {
         var $card = $(deck.$cards.get(index));
         deck.remove$Card($card);
+    };
+    
+    deck.isEmpty = function() {
+        return deck.$cards.length === 0;
     };
 
     return deck;

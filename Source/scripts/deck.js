@@ -283,10 +283,6 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
     };
     
     this.toggleHighLighting = function() {
-        if ($field.hasClass("highlight")) {
-            $field.removeClass("highlight");
-        } else {
-            $field.addClass("highlight");
-        }
+        $field.toggleClass("highlight");
     };
 }//End Deck
