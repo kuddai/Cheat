@@ -183,6 +183,11 @@ function DeckDW(deck) {
         deck.add$Card($card);
     };
     
+    deck.replace = function(cardIndex, card, shirt) {
+        var $card = $(createMarkup(card, shirt));
+        deck.replace$Card(cardIndex, $card);
+    };
+    
     deck.removeCard = function(index) {
         var $card = $(deck.$cards.get(index));
         deck.remove$Card($card);

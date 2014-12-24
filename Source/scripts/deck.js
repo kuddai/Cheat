@@ -15,6 +15,10 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
     //frotate="#{final angle}" fo="#{final opacity}" fw="#{final width}"
     //if status is alive then it is normal card. It could be hovered and clicked
     //if status is removing then it fades out until it becomes dead and it is completely removed from DOM
+    var POP_DY = 35;//px
+    var REPLACE_DY = 45;//px
+    var FULL_SECTOR = 80;//degress
+    
     var $field = $(fieldSelector);
     this.$field = $field;
     
@@ -42,10 +46,18 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
     function getTransformCSS($card) {
         if (!$card) { return {}; }
         return {
-            x: $card.attr('fx') || "0px",
-            y: $card.attr('fy') || "0px",
+            x: $card.attr('fx') || 0,
+            y: $card.attr('fy') || 0,
             rotate: $card.attr('frotate') || "0deg"
         };
+    }
+    
+    function initialize$Card($card) {
+        $card.attr('status', 'alive');    
+        $card.css({
+            opacity: 0.0,
+            transformOrigin: '50px 180px'
+        });
     }
 
     function animateCard($card, time) {
@@ -152,7 +164,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
     //place cards in the form of card fan
     function updateRadially() {
         var cardWidth = self.$cards.first().width();
-        var fullSector = 80;
+        var fullSector = FULL_SECTOR;
         //to make fan symmetric
         var defaultAngle = -fullSector / 2;
         var step = calcStep(fullSector, self.$cards.length);
@@ -192,15 +204,25 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         $card - jQuery object (must not be appended to any DOM object)
     */
     this.add$Card = function($card) {
-        $card.css({
-            opacity: 0.0,
-            transformOrigin: '50px 180px'
-        });
-        $card.attr('status', 'alive');
+        initialize$Card($card);
+        
         var $last = this.$cards.last();
         $card.css(getTransformCSS($last));
         
         $field.append($card);
+        this.$cards = $field.find('.card[status="alive"]');
+    };
+    
+    this.replace$Card = function(cardIndex, $newCard) {
+        var $oldCard = $(this.$cards[cardIndex]);
+        var insertPosition = getTransformCSS($oldCard);
+        insertPosition.y += REPLACE_DY;
+        
+        initialize$Card($newCard);
+        $newCard.css(insertPosition);
+        
+        $oldCard.after($newCard);
+        $oldCard.attr('status', 'dead');
         this.$cards = $field.find('.card[status="alive"]');
     };
     /*
@@ -219,9 +241,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         $card.attr('status', 'dead');
         this.$cards = $field.find('.card[status="alive"]');
     };
-    /*
-
-     */
+    
     this.removeAll = function() {
         //console.log(fieldSelector + ": remove all cards");
         var $cards = this.$cards;
@@ -249,6 +269,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         animateAll(time);
         //console.log(fieldSelector + ": update has been finished");
     };
+    
     /*
     Moves $card up slightly in deck's popTime.
     Animation will start immediately but this function is
@@ -259,7 +280,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         $card - jQuery object in the $field
      */
     this.popUp = function($card) {
-        pop($card, -35);
+        pop($card, -POP_DY);
     };
     /*
      Returns $card to its default y position in deck's popTime.

@@ -146,12 +146,14 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
     
     function revealState(revealCards, checkedIndex) {
         minimumHandlers();
-        main.replace(checkedIndex, revealCards[checkedIndex]);
+        main.replace(checkedIndex, revealCards[checkedIndex], "open");
+        main.update();
         setTimeout(function() {
             for (var i = 0; i < revealCards.length; i++) {
                 if (i == checkedIndex) { continue; }
                 main.replace(i, revealCards[i]);
             }
+            main.update();
         }, REVEAL_DELAY);
     }
     
