@@ -1,25 +1,5 @@
-var timings = { updateTime: 700, deadTime: 1200, popTime: 400};
 
-function createBottomDeck() {
-    var bottomDeck = createDeckDW('.player-bottom', 'horizontal', timings );
-    return bottomDeck;
-}
-
-function createMainDeck() {
-    var mainDeck = createDeckDW('.main-field', 'horizontal', timings);
-    return mainDeck;
-}
-
-function createSample1() {
-    var sample = [
-        {value: "K", suit: "♦"},
-        {value: "Q", suit: "♦"},
-        {value: "8", suit: "♦"}
-    ];
-    return sample;
-}
-
-QUnit.test( "deck.addCard", function(assert) {
+QUnit.test( "DeckDW deck.addCard", function(assert) {
     var deck = createBottomDeck();
     var sampleCards = createSample1();
     for (var i = 0; i < sampleCards.length; i++) {
@@ -32,7 +12,7 @@ QUnit.test( "deck.addCard", function(assert) {
     assert.deepEqual(cards, sampleCards, "it must be the same cards");
 });
 
-QUnit.test( "deck.removeCard", function(assert) {
+QUnit.test( "DeckDW deck.removeCard", function(assert) {
     var deck = createBottomDeck();
     var sampleCards = createSample1();
     for (var i = 0; i < sampleCards.length; i++) {
@@ -46,7 +26,7 @@ QUnit.test( "deck.removeCard", function(assert) {
     }
 });
 
-QUnit.test( "deck.getCards default owership", function(assert) {
+QUnit.test( "DeckDW deck.getCards default owership", function(assert) {
     var deck = createBottomDeck();
     var sampleCard = {value: "Q", suit: "♦"};
     deck.addCard(sampleCard, "open"); 
@@ -55,7 +35,7 @@ QUnit.test( "deck.getCards default owership", function(assert) {
     assert.deepEqual(deck.getCards(2)[0].owner, 2, "owner must be 2");
 });
 
-QUnit.test( "no shirt error in deck.addCard", function(assert) {
+QUnit.test( "DeckDW no shirt error in deck.addCard", function(assert) {
     var deck = createBottomDeck();
     var sampleCard = {value: "Q", suit: "♦"};
     assert.throws(
@@ -67,7 +47,7 @@ QUnit.test( "no shirt error in deck.addCard", function(assert) {
     );
 });
 
-QUnit.test( "unknown signature error in deck.set", function(assert) {
+QUnit.test( "DeckDW unknown signature error in deck.set", function(assert) {
     var deck = createBottomDeck();
     assert.throws(
         function() {
@@ -78,7 +58,7 @@ QUnit.test( "unknown signature error in deck.set", function(assert) {
     );
 });
 
-QUnit.test( "deck.set open cards (signature: cards, 'open')", function(assert) {
+QUnit.test( "DeckDW deck.set open cards (signature: cards, 'open')", function(assert) {
     var deck = createBottomDeck();
     var sample1 = createSample1();
     var sample2 = createSample1();
@@ -93,7 +73,7 @@ QUnit.test( "deck.set open cards (signature: cards, 'open')", function(assert) {
     assert.notDeepEqual(deck.getCards(), sample1, "they must be different");  
 });
 
-QUnit.test( "deck.set cards of other players (signature: cardsCount, 'shirt')", function(assert) {
+QUnit.test( "DeckDW deck.set cards of other players (signature: cardsCount, 'shirt')", function(assert) {
     var deck = createBottomDeck();
     
     deck.set(5, "shirt1");
@@ -106,7 +86,7 @@ QUnit.test( "deck.set cards of other players (signature: cardsCount, 'shirt')", 
     assert.equal(deck.getCards().length, 0, "must be empty"); 
 });
 
-QUnit.test( "deck.set cards of other players with default value (signature: cardsCount, 'shirt', 'default value')", function(assert) {
+QUnit.test( "DeckDW deck.set cards of other players with default value (signature: cardsCount, 'shirt', 'default value')", function(assert) {
     var deck = createBottomDeck();  
     deck.set(3, "shirt1", "K");
     for (var i = 0; i < 3; i++) {
@@ -114,7 +94,7 @@ QUnit.test( "deck.set cards of other players with default value (signature: card
     }
 });
 
-QUnit.test( "deck.set cards of other players (signature: cards, 'shirt')", function(assert) {
+QUnit.test( "DeckDW deck.set cards of other players (signature: cards, 'shirt')", function(assert) {
     var deck = createBottomDeck();  
     var sample1 = [{value: "7"}, {value: "7"}];
     deck.set(sample1, "shirt1");
@@ -123,7 +103,7 @@ QUnit.test( "deck.set cards of other players (signature: cards, 'shirt')", funct
     }
 });
 
-QUnit.test( "deck.set pile cards (signature: cardsWithOwners, ownerToShirtFunction)", function(assert) {
+QUnit.test( "DeckDW deck.set pile cards (signature: cardsWithOwners, ownerToShirtFunction)", function(assert) {
     function getShirt(playerID) {
         var shirtNumber = playerID + 1;//have to add one due to array numeration
         return "shirt" +  shirtNumber;
@@ -143,7 +123,7 @@ QUnit.test( "deck.set pile cards (signature: cardsWithOwners, ownerToShirtFuncti
     assert.equal(deck.$field.find(".shirt3").length, 1);
 });
 
-QUnit.test( "deck.to (signature: otherDeck, cardIndex)", function(assert) {
+QUnit.test( "DeckDW deck.to (signature: otherDeck, cardIndex)", function(assert) {
     var main = createMainDeck();
     var bottom = createBottomDeck();
     var sample = [
@@ -161,7 +141,7 @@ QUnit.test( "deck.to (signature: otherDeck, cardIndex)", function(assert) {
     assert.deepEqual(bottom.getCards()[0], sample[1], "must be equal");
 });
 
-QUnit.test( "deck.to (signature: otherDeck, cardIndex)", function(assert) {
+QUnit.test( "DeckDW deck.to (signature: otherDeck, cardIndex)", function(assert) {
     var main = createMainDeck();
     var bottom = createBottomDeck();
         
@@ -178,7 +158,7 @@ QUnit.test( "deck.to (signature: otherDeck, cardIndex)", function(assert) {
     assert.deepEqual(bottom.getCards()[0], {value: "", suit: ""}, "must be equal");
 });
 
-QUnit.test( "deck.to (signature: otherDeck, $card)", function(assert) {
+QUnit.test( "DeckDW deck.to (signature: otherDeck, $card)", function(assert) {
     var main = createMainDeck();
     var bottom = createBottomDeck();
     var sample = [
@@ -201,7 +181,7 @@ QUnit.test( "deck.to (signature: otherDeck, $card)", function(assert) {
     assert.deepEqual(bottom.getCards()[0], sample[1], "must be equal");
 });
 
-QUnit.test( "deck.to (signature: otherDeck, cardIndex, cardValue)", function(assert) {
+QUnit.test( "DeckDW deck.to (signature: otherDeck, cardIndex, cardValue)", function(assert) {
     var main = createMainDeck();
     var bottom = createBottomDeck();
         
@@ -212,7 +192,7 @@ QUnit.test( "deck.to (signature: otherDeck, cardIndex, cardValue)", function(ass
     assert.deepEqual(bottom.getCards()[0], {value: "", suit: ""}, "must be equal");
 });
 
-QUnit.test( "DeckDW.extract", function(assert) {
+QUnit.test( "DeckDW extract", function(assert) {
     var bottom = createBottomDeck();
     var card = {value: "7", suit: "♦"};
     bottom.addCard(card, "open");
@@ -221,7 +201,7 @@ QUnit.test( "DeckDW.extract", function(assert) {
     assert.deepEqual(DeckDW.extract($card), card);
 });
 
-QUnit.test( "DeckDW.extractShirt", function(assert) {
+QUnit.test( "DeckDW extractShirt", function(assert) {
     var bottom = createBottomDeck();
     var card = {value: "", suit: ""};
     bottom.addCard(card, "shirt3");

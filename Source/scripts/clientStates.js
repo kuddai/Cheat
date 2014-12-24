@@ -1,11 +1,5 @@
 function Input(io, clientId, ownerToShirt, deckByKey) {
-    var REVEAL_DELAY = 2000;
-    var self = this;
-    var $goButton = $(".goButton");
-    var clientShirt = ownerToShirt(clientId);
-    var main = deckByKey("main");
-    var bottom = deckByKey(clientId);
-    
+    var REVEAL_DELAY = 2000;    
     var ALL_ROUND_CARDS = [
          { value: "6" }
         ,{ value: "7" }
@@ -16,6 +10,12 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
         ,{ value: "Q" }
         ,{ value: "K" } 
     ];
+    
+    var self = this;
+    var $goButton = $(".go-button");
+    var clientShirt = ownerToShirt(clientId);
+    var main = deckByKey("main");
+    var bottom = deckByKey(clientId);
     
     function disableGoButton() {
         $goButton.removeClass("yellow");
@@ -60,10 +60,10 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
         self.otherLeave = function(deckKey, cardIndex) {
             popOthers(deckKey, cardIndex, false);
         };
-        self.otherAdd = function(cardIndex, roundCardValue) {
+        self.otherToMain = function(cardIndex, roundCardValue) {
             bottom.to(main, cardIndex, roundCardValue);
         };
-        self.otherRemove = function(cardIndex) {
+        self.otherFromMain = function(cardIndex) {
             main.to(bottom, cardIndex, "");
         };
     }  
@@ -89,7 +89,7 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
         minimumHandlers();
     }
     
-    function addingState(nextState){         
+    function addingState(nextState) {         
         function goOn() {
             var cards = main.getCards();
             defaultState();

@@ -11,7 +11,7 @@
 
 function createDeckDW(fieldSelector, updateType, timings) {
     var t = timings;
-    var deck = new Deck(fieldSelector, t.updateType, t.updateTime, t.deadTime , t.popTime);
+    var deck = new Deck(fieldSelector, updateType, t.updateTime, t.deadTime , t.popTime);
     return new DeckDW(deck);
 }
  
@@ -59,7 +59,7 @@ function DeckDW(deck) {
                 } );
         }
         function increase(count) {
-            var markup = createMarkup({value: cardValue}, shirt);
+            var markup = createMarkup({ value: cardValue }, shirt);
             addIdentic$Cards(markup, count);           
         }
         function decrease(count) {
@@ -132,7 +132,7 @@ function DeckDW(deck) {
             .Select(function(arg) { return jQuery.type(arg); })
             .ToString(", ");
             
-        switch(signature) {
+        switch (signature) {
             case "array, string":
                 chooseOpenOrOtherSet(args[0], args[1]);
                 break;
