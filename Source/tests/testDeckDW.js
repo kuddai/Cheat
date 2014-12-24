@@ -210,3 +210,17 @@ QUnit.test( "DeckDW extractShirt", function(assert) {
     assert.equal(DeckDW.extractShirt($card), "shirt3");
 });
 
+QUnit.test( "DeckDW deck.replace", function(assert) {
+    var bottom = createBottomDeck();
+    var sample = [
+        {value: "K", suit: "♦"},
+        {value: "Q", suit: "♦"}
+        ];    
+        
+    bottom.set(2, "shirt2");
+    bottom.replaceCard(0, sample[0], "open");
+    bottom.replaceCard(1, sample[1], "open");
+    bottom.update();
+    
+    assert.deepEqual(bottom.getCards(), sample, "old cards should have been replaced");
+});
