@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+	<meta charset='utf-8'>
+	<title>Cheat</title>
+	<link rel="stylesheet" href="../css/cards.css" />
+    <script src="../scripts/jquery.js"></script>
+    <script src="../scripts/jquerypp.custom.js"></script>
+    <script src="../scripts/jquery-ui.min.js"></script>
+    <script src="../scripts/jquery.transit.min.js"></script>
+    <script src="../scripts/linq.min.js"></script>
+    <script src="../scripts/deck.js"></script>
+    <script src="../scripts/deckDW.js"></script>
+</head>
+<body>
+<div class="game-container">
+	<div class="layer-top">
+		<div class="player-top">
+		</div>
+		<div class="pile">
+		</div>
+	</div>
+	<div class="layer-middle">
+		<div class="player-left">
+		</div>
+		<div class="main-container">	
+		    <div class="go-button">Believe</div>
+		    <div class="main-field"></div>
+		</div>
+		<div class="player-right">
+		</div>
+	</div>
+	<div class="layer-bottom">
+		<div class="player-bottom">
+			<!--div class="card open red" value="K" suit="♦">
+			  <p>♦</p>
+			</div-->
+		</div>		
+	</div>
+</div>
+
+<script type="text/javascript">
+    var timings = { updateTime: 700, deadTime: 1200, popTime: 400};
+    var deck = createDeckDW('.player-bottom', 'horizontal', timings );
+    var sample = [
+        {value: "K", suit: "♦"},
+        {value: "Q", suit: "♦"},
+        {value: "8", suit: "♦"}
+    ];
+    deck.set(sample, "open");
+    
+    $( ".go-button" ).click(function() {
+    	$( this )
+		.transition({ y: 5, borderBottomWidth: 1, duration: 300 })
+        .transition({ y: 0, borderBottomWidth: 4, duration: 300 })
+    	.toggleClass( "available", 600, "easeOutSine" );
+	});
+</script>
+
+</body>
+</html>

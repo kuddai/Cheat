@@ -1,4 +1,4 @@
-function Input(io, clientId, ownerToShirt, deckByKey) {
+function Input(io, clientId, ownerToShirt, decks) {
     var REVEAL_DELAY = 2000;    
     var ALL_ROUND_CARDS = [
          { value: "6" }
@@ -12,29 +12,38 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
     ];
     
     var self = this;
+    var innerState = "none";
     var $goButton = $(".go-button");
     var clientShirt = ownerToShirt(clientId);
-    var main = deckByKey("main");
-    var bottom = deckByKey(clientId);
+    var main = decks("main");
+    var bottom = decks(clientId);
     
     function disableGoButton() {
-        $goButton.removeClass("yellow");
-        self.goClick = function() {};            
+        self.goClick = function() {}; 
+        $goButton.removeClass("available", 600, "easeOutSine" );
+                   
     }
     function enableGoButton(handler) {
-        $goButton.addClass("yellow");
-        self.goClick = handler;            
+        self.goClick = function() {
+            //press animation
+            $goButton
+            .transition({ y: 5, borderBottomWidth: 1, duration: 300 })
+        	.transition({ y: 0, borderBottomWidth: 4, duration: 300 });
+        	
+            handler();
+        };
+        $goButton.addClass("available", 600, "easeOutSine" );
     }    
     
     function popClient($card, key, up) {
-        var deck = deckByKey(key);
+        var deck = decks(key);
         var message = (up) ? "hoverUp" : "hoverDown";
         deck.pop($card, up);
         io.emit(message, key, deck.$cards.index($card));
     }
     
     function popOthers(key, cardIndex, up) {
-        var deck = deckByKey(key);
+        var deck = decks(key);
         var $card = $(deck.$cards[cardIndex]);
         deck.pop($card, up);
     }
@@ -49,10 +58,10 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
         self.mainLeave = function(el_card) { };
         
         self.bottomEnter = function(el_card) {
-            popClient($(el_card), clientId, true);
+            popClient($(el_card), "bottom", true);
         };
         self.bottomLeave = function(el_card) {
-            popClient($(el_card), clientId, false);
+            popClient($(el_card), "bottom", false);
         };   
         self.otherEnter = function(deckKey, cardIndex) {
             popOthers(deckKey, cardIndex, true);
@@ -89,7 +98,10 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
         minimumHandlers();
     }
     
-    function addingState(nextState) {         
+    function addingState(nextState) {   
+        defaultState();
+        innerState = "addingState";
+        
         function goOn() {
             var cards = main.getCards();
             defaultState();
@@ -115,36 +127,42 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
     }
     
     function choosingRoundCardState(chosenCards) {
+        defaultState();
+        innerState = "choosingRoundCardState";
+        main.set(ALL_ROUND_CARDS, "open");
+        
         self.mainClick = function(el_card) {
             var roundCardValue = DeckDW.extractData($(el_card)).value;
             defaultState();
             io.emit("firstTurn", JSON.stringify(chosenCards), roundCardValue);            
         };
-        
-        main.set(ALL_ROUND_CARDS, "open");
     }
     
-    function checkingState(cards) {       
+    function checkingState(cards) {
+        defaultState();
+        innerState = "checkingState";
+        main.set(cards, clientShirt);
+        enableGoButton(believe);
+        
         function believe() {
             defaultState();
             io.emit("some event to add state");
         };
         self.mainClick = function(el_card) {
             var checkedCardIndex = main.$cards.index(el_card);
-            defaultState();
+            minimumHandlers();
             io.emit("check", checkedCardIndex);
         };   
-        
-        main.set(cards, clientShirt);
-        enableGoButton(believe);
     }
     
     function watchingState(mainCards, currentPlayerId) {
         cleanState(); 
+        innerState = "watchingState";
         main.set(mainCards, ownerToShirt(currentPlayerId));
     }
     
     function revealState(revealCards, checkedIndex) {
+        innerState = "revealState";
         minimumHandlers();
         main.replaceCard(checkedIndex, revealCards[checkedIndex], "open");
         main.update();
@@ -179,6 +197,10 @@ function Input(io, clientId, ownerToShirt, deckByKey) {
         } else {
             addingState(choosingRoundCardState);
         }
+    };
+    
+    this.getState = function() {
+        return innerState;
     };
     
     return self;
