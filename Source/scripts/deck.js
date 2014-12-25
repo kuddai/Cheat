@@ -128,7 +128,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
             function calcMaxVisibleWidth() {
                 //we want to get only visible space without scrollbars
                 var screenWidth = $(window).width();//take it for resizing purposes
-                var fieldWidth = $field.width();//xould be more than window
+                var fieldWidth = parseInt($field.css('max-width'), 10);//$field.width();//could be more than window
                 return (screenWidth > fieldWidth) ? fieldWidth : screenWidth;
             }
             function calcMinWidth() {
