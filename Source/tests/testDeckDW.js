@@ -53,7 +53,7 @@ QUnit.test( "DeckDW unknown signature error in deck.set", function(assert) {
         function() {
           deck.set(4, 4, 4);
         },
-        /Unknown signature: number, number, number/,
+        /Unknown signature: number, number/,
         "it must raise error if signature is unknown"
     );
 });

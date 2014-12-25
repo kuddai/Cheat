@@ -81,7 +81,7 @@ body {
 
 .main-container {
   flex: 5 250px;
-  align-self: center;
+  align-self: flex-end;
   min-width: 300px;
   max-width: 600px;
   height: 100%;

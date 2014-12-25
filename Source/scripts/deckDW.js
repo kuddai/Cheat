@@ -129,9 +129,17 @@ function DeckDW(deck) {
         var args = arguments;
         var signature = Enumerable
             .From(args)
-            .Select(function(arg) { return jQuery.type(arg); })
-            .ToString(", ");
+            .Select(function(arg) { return jQuery.type(arg); });
             
+        var updateTime;
+        var lastArg = args[args.length - 1];
+        if (jQuery.type(lastArg) === "number") {
+            updateTime = lastArg;
+            signature = signature.Take(args.length - 1);
+        }
+        
+        signature = signature.ToString(", ");
+        
         switch (signature) {
             case "array, string":
                 chooseOpenOrOtherSet(args[0], args[1]);
@@ -148,7 +156,12 @@ function DeckDW(deck) {
             default:
                 throw new Error("Unknown signature: " + signature);
         }
-        deck.update();
+        
+        if (updateTime) {
+            deck.update(updateTime);
+        } else {
+            deck.update();
+        }
     };
     
     deck.to = function(otherDeck, cardArg, cardValue) {
@@ -195,6 +208,10 @@ function DeckDW(deck) {
     
     deck.isEmpty = function() {
         return deck.$cards.length === 0;
+    };
+    
+    deck.count = function() {
+        return deck.$cards.length;
     };
 
     return deck;

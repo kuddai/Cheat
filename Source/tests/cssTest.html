@@ -41,20 +41,28 @@
 
 <script type="text/javascript">
     var timings = { updateTime: 700, deadTime: 1200, popTime: 400};
-    var deck = createDeckDW('.player-bottom', 'horizontal', timings );
+    var main = createDeckDW('.main-field', 'horizontal', timings );
     var sample = [
         {value: "K", suit: "♦"},
         {value: "Q", suit: "♦"},
         {value: "8", suit: "♦"}
     ];
-    deck.set(sample, "open");
-    
+    main.set(sample, "open", 3000);
     $( ".go-button" ).click(function() {
     	$( this )
 		.transition({ y: 5, borderBottomWidth: 1, duration: 300 })
         .transition({ y: 0, borderBottomWidth: 4, duration: 300 })
     	.toggleClass( "available", 600, "easeOutSine" );
 	});
+	
+	var bottom = createDeckDW('.player-bottom', 'horizontal', timings );
+	bottom.set(sample, "open");
+	
+    setTimeout(function() {
+    	main.replaceCard(0, {}, "shirt3");
+    	main.update(3000);
+    	console.log("hello");
+    }, 5000);	
 </script>
 
 </body>

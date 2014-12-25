@@ -1,5 +1,5 @@
 function Input(io, clientId, ownerToShirt, decks) {
-    var REVEAL_DELAY = 2000;    
+    var REVEAL_DELAY = 3000;    
     var ALL_ROUND_CARDS = [
          { value: "6" }
         ,{ value: "7" }
@@ -20,8 +20,7 @@ function Input(io, clientId, ownerToShirt, decks) {
     
     function disableGoButton() {
         self.goClick = function() {}; 
-        $goButton.removeClass("available", 600, "easeOutSine" );
-                   
+        $goButton.removeClass("available", 600, "easeOutSine" );          
     }
     function enableGoButton(handler) {
         self.goClick = function() {
@@ -101,6 +100,7 @@ function Input(io, clientId, ownerToShirt, decks) {
     function addingState(nextState) {   
         defaultState();
         innerState = "addingState";
+        updateGoButton();
         
         function goOn() {
             var cards = main.getCards();
@@ -132,7 +132,7 @@ function Input(io, clientId, ownerToShirt, decks) {
         main.set(ALL_ROUND_CARDS, "open");
         
         self.mainClick = function(el_card) {
-            var roundCardValue = DeckDW.extractData($(el_card)).value;
+            var roundCardValue = DeckDW.extract($(el_card)).value;
             defaultState();
             io.emit("firstTurn", JSON.stringify(chosenCards), roundCardValue);            
         };
@@ -165,18 +165,21 @@ function Input(io, clientId, ownerToShirt, decks) {
         innerState = "revealState";
         minimumHandlers();
         main.replaceCard(checkedIndex, revealCards[checkedIndex], "open");
-        main.update();
+        main.update(REVEAL_DELAY);
         setTimeout(function() {
             for (var i = 0; i < revealCards.length; i++) {
-                if (i == checkedIndex) { continue; }
+                if (i === checkedIndex) { continue; }
+                console.log(JSON.stringify(revealCards[i]) + " i: " + i);
                 main.replaceCard(i, revealCards[i], "open");
             }
-            main.update();
+            console.log("r state");
+            io.emit("hi");
+            main.update(REVEAL_DELAY);
         }, REVEAL_DELAY);
     }
     
     this.update = function(mainCards, hasPileCards, currentPlayerId, checkedIndex) {
-        if (checkedIndex) {
+        if (typeof checkedIndex != 'undefined') {
             revealState(mainCards, checkedIndex);
             return;
         }
@@ -202,6 +205,9 @@ function Input(io, clientId, ownerToShirt, decks) {
     this.getState = function() {
         return innerState;
     };
+    
+    this.REVEAL_DELAY = REVEAL_DELAY;
+    this.ALL_ROUND_CARDS = ALL_ROUND_CARDS;
     
     return self;
 }
