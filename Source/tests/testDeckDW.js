@@ -1,3 +1,23 @@
+var timings = { updateTime: 700, deadTime: 1200, popTime: 400};
+
+function createBottomDeck() {
+    var bottomDeck = createDeckDW('.player-bottom', 'horizontal', timings );
+    return bottomDeck;
+}
+
+function createMainDeck() {
+    var mainDeck = createDeckDW('.main-field', 'horizontal', timings);
+    return mainDeck;
+}
+
+function createSample1() {
+    var sample = [
+        {value: "K", suit: "♦"},
+        {value: "Q", suit: "♦"},
+        {value: "8", suit: "♦"}
+    ];
+    return sample;
+}
 
 QUnit.test( "DeckDW deck.addCard", function(assert) {
     var deck = createBottomDeck();
@@ -104,10 +124,6 @@ QUnit.test( "DeckDW deck.set cards of other players (signature: cards, 'shirt')"
 });
 
 QUnit.test( "DeckDW deck.set pile cards (signature: cardsWithOwners, ownerToShirtFunction)", function(assert) {
-    function getShirt(playerID) {
-        var shirtNumber = playerID + 1;//have to add one due to array numeration
-        return "shirt" +  shirtNumber;
-    }
     var deck = createBottomDeck();
     var sample = [ 
         {value: "6", owner: 0},

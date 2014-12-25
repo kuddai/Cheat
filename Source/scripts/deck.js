@@ -142,7 +142,7 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
             var minWidth = calcMinWidth();
             
             if (idealWidth > maxWidth) { 
-                return maxWidth; //not enough space
+                return maxWidth;
             }
             if (maxWidth >= idealWidth && idealWidth >= minWidth) {
                 return  idealWidth; 
@@ -303,7 +303,11 @@ function Deck(fieldSelector, updateType, updateTime, deadTime , popTime) {
         }        
     };
     
-    this.toggleHighLighting = function() {
-        $field.toggleClass("highlight");
+    this.enableHighLighting = function() {
+        $field.addClass("highlight");
+    };
+    
+    this.disableHighLighting = function() {
+        $field.removeClass("highlight");
     };
 }//End Deck

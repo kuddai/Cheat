@@ -68,11 +68,11 @@ function Input(io, clientId, ownerToShirt, decks) {
         self.otherLeave = function(deckKey, cardIndex) {
             popOthers(deckKey, cardIndex, false);
         };
-        self.otherToMain = function(cardIndex, roundCardValue) {
-            bottom.to(main, cardIndex, roundCardValue);
+        self.otherToMain = function(deckKey, cardIndex, roundCardValue) {
+            decks(deckKey).to(main, cardIndex, roundCardValue);
         };
-        self.otherFromMain = function(cardIndex) {
-            main.to(bottom, cardIndex, "");
+        self.otherFromMain = function(deckKey, cardIndex) {
+            decks(deckKey).to(bottom, cardIndex, "");
         };
     }  
     
@@ -209,5 +209,6 @@ function Input(io, clientId, ownerToShirt, decks) {
     this.REVEAL_DELAY = REVEAL_DELAY;
     this.ALL_ROUND_CARDS = ALL_ROUND_CARDS;
     
+    minimumHandlers();
     return self;
 }

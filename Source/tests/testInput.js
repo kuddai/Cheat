@@ -54,36 +54,6 @@ function testChoosingRoundCard(test) {
     });
 }
 
-function createDecks() {    
-    var timings = { updateTime: 700, deadTime: 1200, popTime: 400};
-    
-    var bottom = createDeckDW('.player-bottom', 'horizontal', timings );
-	var top = createDeckDW('.player-top', 'horizontal', timings );
-	var left = createDeckDW('.player-left', 'radial', timings );
-	var right = createDeckDW('.player-right', 'radial', timings );
-	var playerDecks = [bottom, left, top, right];
-	
-	var main = createDeckDW('.main-field', 'horizontal', timings );
-	var pile = createDeckDW('.pile', 'vertical', timings );
-		
-	var deckByKey = function(key) {
-	    if (jQuery.type(key) === "number") {
-	        return playerDecks[key];
-	    } 
-	    if (key === "bottom") {
-	        return bottom;
-	    }
-	    if (key === "main") {
-	        return main;
-	    }
-	    if (key === "pile") {
-	        return pile;
-	    }
-	    throw new Error("Unknown signature: " + key);
-	};    
-	return deckByKey;
-}
-
 function createIoMock() {
     return {
         emitted: [],
@@ -105,7 +75,7 @@ function createInput(io_mock, decks) {
 
 function testCase(sample, test) {
     var io = createIoMock();
-    var decks = createDecks();
+    var decks = createDecks(CLINET_ID);
     var input = createInput(io, decks);
     
     decks("bottom").set([
@@ -329,7 +299,7 @@ QUnit.test("Input choosing round card state main click", function(assert) {
 
 QUnit.test("Input reveal state", function(assert) {
     var io = createIoMock();
-    var decks = createDecks();
+    var decks = createDecks(CLINET_ID);
     var input = createInput(io, decks);
     var sample = getRevealStateSample();
     
