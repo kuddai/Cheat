@@ -242,7 +242,7 @@ QUnit.test("Input adding state add, main hover, and remove card", function(asser
         input.bottomClick(bottom.$cards[0]);
         assert.equal(bottom.$cards.length, initialCardsCount - 1);
         assert.equal(main.$cards.length, 1);
-        assert.deepEqual(io.emitted, ["setCard", 0]);
+        assert.deepEqual(io.emitted, ["setCard", 0, 0]);
         assert.deepEqual(main.getCards()[0], card);
         //hover main
         var el_card = main.$cards[0];
@@ -254,7 +254,7 @@ QUnit.test("Input adding state add, main hover, and remove card", function(asser
         input.mainClick(main.$cards[0]);
         assert.equal(bottom.$cards.length, initialCardsCount);
         assert.equal(main.$cards.length, 0);
-        assert.deepEqual(io.emitted, ["removeCard", 0]);
+        assert.deepEqual(io.emitted, ["removeCard", 0, 0]);
         assert.deepEqual(bottom.getCards()[initialCardsCount - 1], card);
     });
 });

@@ -62,8 +62,8 @@ $(document).ready(function() {
 			currentPlayerId = data["currPlayer"];
 			console.log(clientPlayerId + ": Current Player " + currentPlayerId);
 			
-            var checkedIndex = data["canCheckCards"];
-            var mainCards = data["mainCards"] || [];
+            var checkedIndex = data["checkedIndex"];
+            var mainCards = data["canCheckCards"] || [];
             var pileCards = data["cardsOnBoard"] || [];
             
             decks("pile").set(pileCards, ownerToShirt);
@@ -83,6 +83,14 @@ $(document).ready(function() {
         socket.on("hoverUp", input.otherEnter);
         //handler signature: deckKey, cardIndex
         socket.on("hoverDown", input.otherLeave);
+        
+        decks("bottom").$field.on("click", '.card[status="alive"]', input.bottomClick);
+        decks("bottom").$field.on("mouseenter", '.card[status="alive"]', input.bottomEnter);
+        decks("bottom").$field.on("mouseleave", '.card[status="alive"]', input.bottomLeave);
+        decks("main").$field.on("click", '.card[status="alive"]', input.mainClick);
+        decks("main").$field.on("mouseenter", '.card[status="alive"]', input.mainEnter);
+        decks("main").$field.on("mouseleave", '.card[status="alive"]', input.mainLeave);
+        
 		// Присылается игрок looser
 		// {name:"имя игрока", id:val, num:"номер игрока", cards:[массив карт игрока]}
         socket.on("endGame", function(looser) {
@@ -95,9 +103,10 @@ $(document).ready(function() {
         socket.on("message", function(msg) {
             console.log(clientPlayerId + ": " +"message: " + msg);
         });
+        
+
 
     });
-
 
     $(window).resize(function() {
         var allDecks = decks("all");

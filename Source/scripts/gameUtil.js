@@ -14,6 +14,8 @@ function createDecks(clientPlayerId, timings) {
 	playerDecks[(clientPlayerId + 2) % 4] = top;
 	playerDecks[(clientPlayerId + 3) % 4] = right;
 	
+	var allDecks = [bottom, top, left, right, main, pile];
+	
 	var decks = function(key) {
 	    if (jQuery.type(key) === "number") {
 	        return playerDecks[key];
@@ -27,6 +29,9 @@ function createDecks(clientPlayerId, timings) {
 	    if (key === "pile") {
 	        return pile;
 	    }
+	    if (key === "all") {
+	        return allDecks;
+	    }
 	    throw new Error("Unknown signature: " + key);
 	};    
 	return decks;
@@ -35,4 +40,13 @@ function createDecks(clientPlayerId, timings) {
 function getShirt(playerID) {
     var shirtNumber = playerID + 1;//have to add one due to array numeration
     return "shirt" +  shirtNumber;
+}
+
+function switchHighlighting(previousPlayerId, currentPlayerId, decks) {
+	if (typeof previousPlayerId != 'undefined') {
+	    decks(previousPlayerId).disableHighLighting();
+	}
+	if (typeof currentPlayerId != 'undefined') {
+	    decks(currentPlayerId).enableHighLighting();
+	}	
 }

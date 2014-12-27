@@ -117,12 +117,12 @@ function Input(io, clientId, ownerToShirt, decks) {
         self.bottomClick = function(el_card) {
             var index = bottom.to(main, $(el_card));
             updateGoButton();
-            io.emit("setCard", index);
+            io.emit("setCard", clientId, index);
         };
         self.mainClick = function(el_card) {
             var index = main.to(bottom, $(el_card));
             updateGoButton();
-            io.emit("removeCard", index);
+            io.emit("removeCard", clientId, index);
         };
     }
     
@@ -208,6 +208,7 @@ function Input(io, clientId, ownerToShirt, decks) {
     
     this.REVEAL_DELAY = REVEAL_DELAY;
     this.ALL_ROUND_CARDS = ALL_ROUND_CARDS;
+    this.clean = cleanState;
     
     minimumHandlers();
     return self;
