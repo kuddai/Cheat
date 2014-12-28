@@ -104,16 +104,22 @@ function DeckDW(deck) {
     }
     
     function setPile(currentCards, ownerToShirt) {
+        var alive = {};
+        var exs = DeckDW.extractShirt;
+        
         Enumerable
         .From(currentCards)
         .GroupBy("$.owner")
         .ForEach(function(group) {
-            var count = group.Count();
-            var owner = group.Key();
-            var shirt = ownerToShirt(owner);
+            var shirt = ownerToShirt(group.Key());
             var roundCardValue = group.First().value;
-            setOther(count, shirt, roundCardValue);
+            alive[shirt] = true;
+            setOther(group.Count(), shirt, roundCardValue);    
         });
+            
+        $cardsEnumerator()
+        .Where(function($card) { return alive[exs($card)] === undefined;})
+        .ForEach(function($card) { deck.remove$Card($card); });
     }
     
     function chooseOpenOrOtherSet(cards, shirt){
@@ -182,7 +188,7 @@ function DeckDW(deck) {
     deck.getCards = function(owner) {
         function cardWithOwner($card) {
             var card = DeckDW.extract($card);
-            if (owner) {
+            if (typeof owner !== 'undefined') {
                 card.owner = owner;
             }
             return card;

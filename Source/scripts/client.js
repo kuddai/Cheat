@@ -9,7 +9,7 @@ function getVal(key) {
 }
 
 $(document).ready(function() {
-	var socket = io.connect('http://31.23.52.23:25002');
+	var socket = io.connect('http://127.0.0.1:25002');
     var MAX_PLAYERS = 4;
  
     socket.once('connect', function() {
@@ -18,17 +18,20 @@ $(document).ready(function() {
         var decks;
         var input;
         var gameStart = true;
-        
+        socket.emit("ready", 
+        	JSON.stringify({ "name": "defaultName", "id":getVal("id") })
+        ); 
         console.log("wait for the game to start");
-        var intervalID = setInterval( function () {
+        /*var intervalID = setInterval( function () {
+            console.log("emit ready");
         	socket.emit("ready", 
         		JSON.stringify({ "name": "defaultName", "id":getVal("id") })
         		); 
-        }, 1000);
+        }, 1000);*/
 //-----------------------EVENTS-----------------------        
 		// playerInfo - {name:"имя игрока", id:val, num:"номер игрока", cards:[массив карт игрока]}
         socket.on('startGame', function(playerInfo) {
-        	clearInterval(intervalID);
+        	//clearInterval(intervalID);
             var parsed = JSON.parse(playerInfo);
             clientPlayerId = parseInt(parsed.num);
             save("id", parsed.id);
@@ -37,6 +40,35 @@ $(document).ready(function() {
             decks = createDecks(clientPlayerId);
             input = new Input(socket, clientPlayerId, getShirt, decks);
             
+            $(".go-button").click(function() {
+                input.goClick();
+            });
+            
+            decks("bottom").$field.on("click", '.card[status="alive"]', function() {
+                input.bottomClick(this);
+            });
+            decks("bottom").$field.on("mouseenter", '.card[status="alive"]', function() {
+                input.bottomEnter(this);
+            });
+            decks("bottom").$field.on("mouseleave", '.card[status="alive"]', function() {
+                input.bottomLeave(this);
+            });
+            decks("main").$field.on("click", '.card[status="alive"]', function() {
+                input.mainClick(this);
+            });
+            decks("main").$field.on("mouseenter", '.card[status="alive"]', function() {
+                input.mainEnter(this);
+            });
+            decks("main").$field.on("mouseleave", '.card[status="alive"]', function() {
+                input.mainLeave(this);
+            });     
+            
+            $(window).resize(function() {
+                var allDecks = decks("all");
+                for (var i = 0; i < allDecks.length; i++) {
+                    allDecks[i].update();
+                };
+            });            
             console.log("Game has started. Our client id: " + clientPlayerId);
         });
         
@@ -51,8 +83,10 @@ $(document).ready(function() {
         socket.on("update", function(rawData) {
             //all cards in the game
 			var data = JSON.parse(rawData);
+			//console.log("clientPlayerId" + clientPlayerId);
+			//console.log(rawData);
 		    for (var playerid = 0; playerid < MAX_PLAYERS; playerid++) {
-		        var shirt = (playerid === clientPlayerId) ? "open" : ownerToShirt(playerid);
+		        var shirt = (playerid === clientPlayerId) ? "open" : getShirt(playerid);
 		        decks(playerid).set(data[playerid], shirt);
 			}
 			
@@ -66,7 +100,7 @@ $(document).ready(function() {
             var mainCards = data["canCheckCards"] || [];
             var pileCards = data["pileCards"] || [];
             
-            decks("pile").set(pileCards, ownerToShirt);
+            decks("pile").set(pileCards, getShirt);
             input.update(mainCards, pileCards.length > 0, currentPlayerId, checkedIndex);
             console.log(clientPlayerId + ": Current state " + input.getState());
         });
@@ -75,27 +109,32 @@ $(document).ready(function() {
         socket.on("gameError", function(msg) {
             console.log(clientPlayerId + ": " + msg);
         });
-		//handler signature: deckKey, cardIndex, roundCardValue
-        socket.on("setCard", input.otherToMain);
+        socket.on("setCard", function(deckKey, cardIndex, roundCardValue) {
+            input.otherToMain(deckKey, cardIndex, roundCardValue);
+        });
+        socket.on("removeCard", function(deckKey, cardIndex) {
+            input.otherFromMain(deckKey, cardIndex);
+        });
 		//handler signature: deckKey, cardIndex
-        socket.on("removeCard", input.otherFromMain);
-		//handler signature: deckKey, cardIndex
-        socket.on("hoverUp", input.otherEnter);
+        socket.on("hoverUp", function(deckKey, cardIndex) {
+            input.otherEnter(deckKey, cardIndex);
+        });
         //handler signature: deckKey, cardIndex
-        socket.on("hoverDown", input.otherLeave);
-        
-        decks("bottom").$field.on("click", '.card[status="alive"]', input.bottomClick);
-        decks("bottom").$field.on("mouseenter", '.card[status="alive"]', input.bottomEnter);
-        decks("bottom").$field.on("mouseleave", '.card[status="alive"]', input.bottomLeave);
-        decks("main").$field.on("click", '.card[status="alive"]', input.mainClick);
-        decks("main").$field.on("mouseenter", '.card[status="alive"]', input.mainEnter);
-        decks("main").$field.on("mouseleave", '.card[status="alive"]', input.mainLeave);
+        socket.on("hoverDown", function(deckKey, cardIndex) { 
+            input.otherLeave(deckKey, cardIndex);
+        });
         
 		// Присылается игрок looser
 		// {name:"имя игрока", id:val, num:"номер игрока", cards:[массив карт игрока]}
         socket.on("endGame", function(looser) {
+             var p = JSON.parse(looser);
             input.clean();
-            var p = JSON.parse(looser);
+            $(".go-button").text(p.name + " lost");
+            var allDecks = decks("all");
+            for (var i = 0; i < allDecks.length; i++) {
+                allDecks.removeAll();
+                allDecks.update();
+            }
             console.log(clientPlayerId + ": " +"Looser - " + p.name);
         });
 		// Разные сообщения, которые нужно выводить в каком нибудь text field.
@@ -106,12 +145,5 @@ $(document).ready(function() {
         
 
 
-    });
-
-    $(window).resize(function() {
-        var allDecks = decks("all");
-        for (var i = 0; i < allDecks.length; i++) {
-            allDecks[i].update();
-        };
     });
 });

@@ -36,8 +36,8 @@ function Input(io, clientId, ownerToShirt, decks) {
     
     function popClient($card, key, up) {
         var deck = decks(key);
-        var message = (up) ? "hoverUp" : "hoverDown";
         deck.pop($card, up);
+        var message = (up) ? "hoverUp" : "hoverDown";   
         io.emit(message, key, deck.$cards.index($card));
     }
     
@@ -72,7 +72,7 @@ function Input(io, clientId, ownerToShirt, decks) {
             decks(deckKey).to(main, cardIndex, roundCardValue);
         };
         self.otherFromMain = function(deckKey, cardIndex) {
-            decks(deckKey).to(bottom, cardIndex, "");
+            main.to(decks(deckKey), cardIndex, "");
         };
     }  
     
@@ -87,23 +87,29 @@ function Input(io, clientId, ownerToShirt, decks) {
         };
     }
     
-    function defaultState() {   
+    function defaultState() { 
+        $goButton.text("");
         main.removeAll();
+        main.update();
         defaultHandlers();
     }
     
     function cleanState() {
+        $goButton.text("");
         main.removeAll();
+        main.update();
         minimumHandlers();
     }
     
     function addingState(nextState) {   
         defaultState();
         innerState = "addingState";
+        $goButton.text("Ready");
         updateGoButton();
         
         function goOn() {
-            var cards = main.getCards();
+            var cards = main.getCards(clientId);
+            console.log(JSON.stringify(cards));
             defaultState();
             nextState(cards);
         }
@@ -136,12 +142,21 @@ function Input(io, clientId, ownerToShirt, decks) {
             defaultState();
             io.emit("firstTurn", JSON.stringify(chosenCards), roundCardValue);            
         };
+        self.mainEnter = function(el_card) {
+            var deck = decks("main");
+            deck.pop($(el_card), true);
+        };
+        self.mainLeave = function(el_card) {
+            var deck = decks("main");
+            deck.pop($(el_card), false);
+        };
     }
     
     function checkingState(cards) {
         defaultState();
         innerState = "checkingState";
         main.set(cards, clientShirt);
+        $goButton.text("Believe");
         enableGoButton(believe);
         
         function believe() {
@@ -181,7 +196,7 @@ function Input(io, clientId, ownerToShirt, decks) {
     }
     
     this.update = function(mainCards, hasPileCards, currentPlayerId, checkedIndex) {
-        if (typeof checkedIndex != 'undefined') {
+        if (typeof checkedIndex !== 'undefined') {
             revealState(mainCards, checkedIndex);
             return;
         }
