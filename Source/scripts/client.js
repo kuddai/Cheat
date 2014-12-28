@@ -27,7 +27,7 @@ $(document).ready(function() {
         }, 1000);
 //-----------------------EVENTS-----------------------        
 		// playerInfo - {name:"имя игрока", id:val, num:"номер игрока", cards:[массив карт игрока]}
-        socket.on('StartGame', function(playerInfo) {
+        socket.on('startGame', function(playerInfo) {
         	clearInterval(intervalID);
             var parsed = JSON.parse(playerInfo);
             clientPlayerId = parseInt(parsed.num);
@@ -48,10 +48,10 @@ $(document).ready(function() {
         // SERVER SENDS common info about all players.
 		// {"номер игрока": [массив его карт в виде пустышек],.., 
 		//"карты в куче": [массив карт в куче], "карты на столе": [массив карт на столе]}
-        socket.on("SetCardsOnBoard", function(rawData) {
+        socket.on("update", function(rawData) {
             //all cards in the game
 			var data = JSON.parse(rawData);
-		    for (var playerid = 0; playerid < MAX_PLAYERS; playerid++){
+		    for (var playerid = 0; playerid < MAX_PLAYERS; playerid++) {
 		        var shirt = (playerid === clientPlayerId) ? "open" : ownerToShirt(playerid);
 		        decks(playerid).set(data[playerid], shirt);
 			}
@@ -64,7 +64,7 @@ $(document).ready(function() {
 			
             var checkedIndex = data["checkedIndex"];
             var mainCards = data["canCheckCards"] || [];
-            var pileCards = data["cardsOnBoard"] || [];
+            var pileCards = data["pileCards"] || [];
             
             decks("pile").set(pileCards, ownerToShirt);
             input.update(mainCards, pileCards.length > 0, currentPlayerId, checkedIndex);

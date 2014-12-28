@@ -146,7 +146,7 @@ function Input(io, clientId, ownerToShirt, decks) {
         
         function believe() {
             defaultState();
-            io.emit("some event to add state");
+            io.emit("agree");
         };
         self.mainClick = function(el_card) {
             var checkedCardIndex = main.$cards.index(el_card);
@@ -173,9 +173,11 @@ function Input(io, clientId, ownerToShirt, decks) {
                 main.replaceCard(i, revealCards[i], "open");
             }
             console.log("r state");
-            io.emit("hi");
             main.update(REVEAL_DELAY);
         }, REVEAL_DELAY);
+        setTimeout(function() {
+            io.emit("revealEnd", checkedIndex);     
+        },REVEAL_DELAY * 2);
     }
     
     this.update = function(mainCards, hasPileCards, currentPlayerId, checkedIndex) {
